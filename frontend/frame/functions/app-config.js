@@ -11,6 +11,10 @@ const initialize = () => {
       error: '/error',
       frame: '/frame',
     },
+    statics: {
+      folder: 'app/public',
+      route: '/public',
+    },
     url: {
     },
     view: {
@@ -21,7 +25,7 @@ const initialize = () => {
 
   config.url.error404 = `${baseUrl}${config.route.error}/404`;
   config.url.error500 = `${baseUrl}${config.route.error}/500`;
-
+  config.url.publicUrl = `${baseUrl}${config.statics.route}`;
   return config;
 };
 

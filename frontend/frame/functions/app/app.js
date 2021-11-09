@@ -8,6 +8,10 @@ const routeHandlerHelper = require('./helper/route-handler');
 
 const initialize = (config = {}) => {
   const {
+    statics: {
+      folder: staticFolder,
+      route: staticRoute,
+    },
     route: {
       error: errorRoute,
       frame: frameRoute,
@@ -21,7 +25,11 @@ const initialize = (config = {}) => {
   const routeHandler = routeHandlerHelper({ config });
 
   const mainRouter = express.Router();
-  middleware.pug({ router: mainRouter });
+
+  const statics = express.static(staticFolder, { index: false });
+  mainRouter.use(staticRoute, statics);
+
+  middleware.pug({ config, router: mainRouter });
   mainRouter.use(errorRoute, router.error({ controller: controller.error(), routeHandler }));
   mainRouter.use(frameRoute, router.frame({ controller: controller.frame(), routeHandler }));
 
