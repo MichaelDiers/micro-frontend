@@ -1,5 +1,6 @@
-const functions = require('firebase-functions'); // eslint-disable-line no-unused-vars
+const functions = require('firebase-functions');
 
 const app = require('./app/app');
+const appConfig = require('./app-config');
 
-exports.frame = functions.https.onRequest(app());
+exports.frame = functions.https.onRequest(app(appConfig()));
