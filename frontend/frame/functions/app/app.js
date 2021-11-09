@@ -1,6 +1,6 @@
 const express = require('express');
 
-// const controller = require('./controller/controller');
+const controller = require('./controller/controller');
 // const middleware = require('./middleware/middleware');
 const router = require('./router/router');
 
@@ -13,7 +13,7 @@ const initialize = (config = {}) => {
   } = config;
 
   const mainRouter = express.Router();
-  mainRouter.use('/', router.frame());
+  mainRouter.use('/', router.frame({ controller: controller.frame() }));
 
   const app = express();
 
