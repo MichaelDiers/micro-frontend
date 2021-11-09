@@ -1,0 +1,18 @@
+block variables
+
+doctype html
+html(lang=pugOptions.lang)
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width', initial-scale=1.0)
+    meta(name='google', content='notranslate')        
+    title= title
+    each css_file in pugOptions.css_files
+      link(rel='stylesheet', href=css_file)
+  body
+    header      
+    main      
+      block content
+    footer
+    each js_file in pugOptions.js_files
+      script(src=js_file)

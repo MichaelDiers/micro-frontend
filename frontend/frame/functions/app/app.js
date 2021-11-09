@@ -21,6 +21,7 @@ const initialize = (config = {}) => {
   const routeHandler = routeHandlerHelper({ config });
 
   const mainRouter = express.Router();
+  middleware.pug({ router: mainRouter });
   mainRouter.use(errorRoute, router.error({ controller: controller.error(), routeHandler }));
   mainRouter.use(frameRoute, router.frame({ controller: controller.frame(), routeHandler }));
 
