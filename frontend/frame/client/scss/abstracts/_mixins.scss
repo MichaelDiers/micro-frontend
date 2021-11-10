@@ -1,6 +1,7 @@
 @mixin grid-columns($columns) {
   display: grid;
-  grid-template-columns: repeat($columns, auto);
   gap: 10px;
+  grid-template-columns: repeat($columns, auto);
+  
   place-items: center;  
 }
