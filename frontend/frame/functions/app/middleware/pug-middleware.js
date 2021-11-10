@@ -7,6 +7,7 @@ const initialize = (options = {}) => {
         cssFiles,
         jsFiles,
         licenses,
+        licenseUrl,
         publicUrl,
       },
     },
@@ -19,6 +20,7 @@ const initialize = (options = {}) => {
       cssFiles,
       jsFiles,
       licenseUrls: licenses,
+      licenseUrl,
       favicon: [
         {
           rel: 'apple-touch-icon',

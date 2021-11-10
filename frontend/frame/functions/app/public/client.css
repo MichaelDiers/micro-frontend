@@ -10,7 +10,7 @@ h5 {
   text-align: center;
 }
 
-.grid-1 {
+.grid-col-1 {
   display: -ms-grid;
   display: grid;
   gap: 10px;

@@ -37,6 +37,7 @@ const initialize = () => {
   config.url.publicUrl = `${baseUrl}${config.statics.route}`;
   config.url.jsFiles = config.jsFiles.map((jsFile) => `${config.url.publicUrl}/${jsFile}`);
   config.url.cssFiles = config.cssFiles.map((cssFile) => `${config.url.publicUrl}/${cssFile}`);
+  config.url.licenseUrl = `${baseUrl}${config.route.license}`;
 
   if (licenses) {
     config.url.licenses = licenses.split('##');
