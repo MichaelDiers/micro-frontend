@@ -72,10 +72,11 @@
       "extends ../extends/layout",
       "",
       "block variables",
-      "  - var title = '${TM_DIRECTORY/^.+\\\\(.*)$/${1:/capitalize}/}'",
+      "  - var title = '${TM_DIRECTORY/^.+\\\\(.*)$/${1:/capitalize}/} $TM_FILENAME_BASE'",
+      "  - var pageId = 'id_${UUID/-//g}'",
       "",
       "block content",
-      "  h1 ${TM_DIRECTORY/^.+\\\\(.*)$/${1:/capitalize}/}",
+      "  h1 ${TM_DIRECTORY/^.+\\\\(.*)$/${1:/capitalize}/} $TM_FILENAME_BASE",
       ""
     ],
     "description": "add pug view"

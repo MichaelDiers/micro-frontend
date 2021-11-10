@@ -67,3 +67,4 @@ node_modules/
 
 # firebase environment variables file
 .runtimeconfig.json
+_address.js

@@ -5,6 +5,7 @@ const initialize = (options = {}) => {
     config: {
       url: {
         jsFiles,
+        licenses,
         publicUrl,
       },
     },
@@ -16,6 +17,7 @@ const initialize = (options = {}) => {
       lang: 'de',
       cssFiles: [],
       jsFiles,
+      licenseUrls: licenses,
       favicon: [
         {
           rel: 'apple-touch-icon',

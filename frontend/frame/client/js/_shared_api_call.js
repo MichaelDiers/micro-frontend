@@ -17,12 +17,17 @@ function apiCall(url, method, options) { // eslint-disable-line
       }
     };
 
-    // eslint-disable-next-line no-undef
-    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    xhttp.open(method, url, true);
+    xhttp.open(method, url, true); // eslint-disable-line no-undef
     xhttp.withCredentials = true;
     xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhttp.setRequestHeader('CSRF-Token', token);
+    const csrfToken = document.querySelector('meta[name="csrf-token"]'); // eslint-disable-line no-undef
+    if (csrfToken) {
+      const token = csrfToken.getAttribute('content');
+      if (token) {
+        xhttp.setRequestHeader('CSRF-Token', token);
+      }
+    }
+
     // const data = Object.keys(options).map((key) => `${key}=${options[key]}`).join('&');
     // xhttp.send(data);
     xhttp.send();
