@@ -12,9 +12,11 @@ html(lang=pugOptions.lang)
     each css_file in pugOptions.css_files
       link(rel='stylesheet', href=css_file)
   body
-    header      
+    header
+      include ../includes/header      
     main      
       block content
     footer
+      include ../includes/footer
     each js_file in pugOptions.js_files
       script(src=js_file)
