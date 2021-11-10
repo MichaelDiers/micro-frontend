@@ -24,10 +24,9 @@ const loadLicenses = async () => {
       }
 
       if (addApplication) {
-        const parent = addDivElement({ parent: licensesElement }); // eslint-disable-line no-undef
         const url = link.replace(/^(git\+?)/i, '').replace(/^(:)/i, 'https:');
         addNewElement({ // eslint-disable-line no-undef
-          parent,
+          parent: licensesElement,
           elementName: 'a',
           innerText: `${name} ${installedVersion} (${licenseType})`,
           attributes: [{ name: 'href', value: url }],

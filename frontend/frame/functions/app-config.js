@@ -7,6 +7,9 @@ const initialize = () => {
   } = firebaseFunctions.config().frame;
 
   const config = {
+    cssFiles: [
+      'client.min.css',
+    ],
     jsFiles: [
       'client.min.js',
     ],
@@ -33,6 +36,7 @@ const initialize = () => {
   config.url.error500 = `${baseUrl}${config.route.error}/500`;
   config.url.publicUrl = `${baseUrl}${config.statics.route}`;
   config.url.jsFiles = config.jsFiles.map((jsFile) => `${config.url.publicUrl}/${jsFile}`);
+  config.url.cssFiles = config.cssFiles.map((cssFile) => `${config.url.publicUrl}/${cssFile}`);
 
   if (licenses) {
     config.url.licenses = licenses.split('##');

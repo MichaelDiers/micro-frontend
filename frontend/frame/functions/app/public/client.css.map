@@ -1,0 +1,13 @@
+{
+    "version": 3,
+    "mappings": "ACAA,AAAA,IAAI,CAAC;EACH,MAAM,EAAE,CAAC;CACV;;ACFD,AAAA,EAAE,EAAE,EAAE,EAAE,EAAE,EAAE,EAAE,EAAE,EAAE,CAAC;EACjB,UAAU,EAAE,MAAM;CACnB;;AEFD,AAAA,OAAO,CAAC;EDCN,OAAO,EAAE,IAAI;EACb,qBAAqB,EAAE,eAAsB;EAC7C,GAAG,EAAE,IAAI;EACT,WAAW,EAAE,MAAM;CCFpB",
+    "sources": [
+        "../../../client/scss/client.scss",
+        "../../../client/scss/base/_reset.scss",
+        "../../../client/scss/base/_typography.scss",
+        "../../../client/scss/abstracts/_mixins.scss",
+        "../../../client/scss/layout/_grid.scss"
+    ],
+    "names": [],
+    "file": "client.css"
+}

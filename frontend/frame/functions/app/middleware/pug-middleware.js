@@ -4,6 +4,7 @@ const initialize = (options = {}) => {
   const {
     config: {
       url: {
+        cssFiles,
         jsFiles,
         licenses,
         publicUrl,
@@ -15,7 +16,7 @@ const initialize = (options = {}) => {
   router.use((req, res, next) => {
     const pugOptions = {
       lang: 'de',
-      cssFiles: [],
+      cssFiles,
       jsFiles,
       licenseUrls: licenses,
       favicon: [
