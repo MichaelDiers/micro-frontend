@@ -10,6 +10,7 @@ const initialize = () => {
     route: {
       error: '/error',
       frame: '/frame',
+      license: '/license',
     },
     statics: {
       folder: 'app/public',

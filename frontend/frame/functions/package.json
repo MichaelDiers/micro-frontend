@@ -8,7 +8,8 @@
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
     "lint": "eslint -c .eslintrc.js ../",
-    "gitadd": "npm run lint && git add ../ && git status"
+    "gitadd": "npm run lint && npm run licrep && git add ../ && git status",
+    "licrep": "license-report --config license-report-config.json > app/public/license.json"
   },
   "engines": {
     "node": "14"

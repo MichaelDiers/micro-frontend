@@ -15,6 +15,7 @@ const initialize = (config = {}) => {
     route: {
       error: errorRoute,
       frame: frameRoute,
+      license: licenseRoute,
     },
     view: {
       engine: viewEngine,
@@ -32,17 +33,18 @@ const initialize = (config = {}) => {
   middleware.pug({ config, router: mainRouter });
   mainRouter.use(errorRoute, router.error({ controller: controller.error(), routeHandler }));
   mainRouter.use(frameRoute, router.frame({ controller: controller.frame(), routeHandler }));
+  mainRouter.use(licenseRoute, router.license({ controller: controller.license(), routeHandler }));
 
   const app = express();
+  middleware.base({ router: app });
 
   app.set('views', viewFolder);
   app.set('view engine', viewEngine);
 
-  app.use('/', middleware.base());
-
   app.use('/', mainRouter);
 
   middleware.error({ config, router: app });
+
   return app;
 };
 
