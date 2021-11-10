@@ -6,6 +6,9 @@ const initialize = () => {
   } = firebaseFunctions.config().frame;
 
   const config = {
+    jsFiles: [
+      'client.min.js',
+    ],
     logger: firebaseFunctions.logger.error,
     route: {
       error: '/error',
@@ -27,6 +30,8 @@ const initialize = () => {
   config.url.error404 = `${baseUrl}${config.route.error}/404`;
   config.url.error500 = `${baseUrl}${config.route.error}/500`;
   config.url.publicUrl = `${baseUrl}${config.statics.route}`;
+  config.url.jsFiles = config.js_files.map((jsFile) => `${config.url.publicUrl}/${jsFile}`);
+
   return config;
 };
 

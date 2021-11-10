@@ -9,8 +9,8 @@ html(lang=pugOptions.lang)
     title= title
     each link in pugOptions.favicon
       link(rel=link.rel, type=link.type, sizes=link.sizes, href=link.href)
-    each css_file in pugOptions.css_files
-      link(rel='stylesheet', href=css_file)
+    each cssFile in pugOptions.cssFiles
+      link(rel='stylesheet', href=cssFile)
   body
     header
       include ../includes/header      
@@ -18,5 +18,5 @@ html(lang=pugOptions.lang)
       block content
     footer
       include ../includes/footer
-    each js_file in pugOptions.js_files
-      script(src=js_file)
+    each jsFile in pugOptions.jsFiles
+      script(src=jsFile)

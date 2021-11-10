@@ -4,6 +4,7 @@ const initialize = (options = {}) => {
   const {
     config: {
       url: {
+        jsFiles,
         publicUrl,
       },
     },
@@ -13,8 +14,8 @@ const initialize = (options = {}) => {
   router.use((req, res, next) => {
     const pugOptions = {
       lang: 'de',
-      css_files: [],
-      js_files: [],
+      cssFiles: [],
+      jsFiles,
       favicon: [
         {
           rel: 'apple-touch-icon',
