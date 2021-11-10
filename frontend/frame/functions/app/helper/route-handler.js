@@ -21,13 +21,30 @@ const initialize = (options = {}) => {
    * to the error page.
    * @param {express.Response} res An express.Response that used for randering or redirecting.
    * @param {Promise} promise A Promise whose result is a { view, options } object.
+   * @param {boolean} redirectOnError Indicates a redirect to 500 error page if true,
+   *  sends status 500 otherwise. Should false for error pages (infitite loop).
    */
-  const handle = (res, promise) => {
+  const handle = (res, promise, redirectOnError = true) => {
     promise.then(({ view, options: viewOptions }) => {
-      res.render(view, viewOptions);
+      res.render(view, viewOptions, (err, html) => {
+        if (err) {
+          logger(err);
+          if (redirectOnError === true) {
+            res.redirect(303, error500);
+          } else {
+            res.send(500);
+          }
+        } else {
+          res.send(html);
+        }
+      });
     }).catch((error) => {
       logger(error);
-      res.redirect(303, error500);
+      if (redirectOnError === true) {
+        res.redirect(303, error500);
+      } else {
+        res.status(500);
+      }
     });
   };
 
