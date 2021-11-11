@@ -20,6 +20,13 @@ jobs:
           node-version: 14.x
       - name: install dependencies
         run: npm install
+      - name: create _address.js
+        run: |
+          printf "const address = { licenses: [ '$BASE_URL/public/license.json' ] };" > ../client/js/_address.js
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+      - name: uglyfy
+        run: npm run ugly
       - name: set config
         run: npx firebase-tools functions:config:set frame.baseurl=$BASE_URL frame.version=$RELEASE_VERSION
         env:
