@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-    pathes: 
+    paths: 
       - 'frontend/frame/**'
   workflow_dispatch:
 jobs:
@@ -21,7 +21,7 @@ jobs:
       - name: install dependencies
         run: npm install
       - name: set config
-        run: npx firebase-tools functions:config:set survey.baseurl=$BASE_URL survey.version=$RELEASE_VERSION
+        run: npx firebase-tools functions:config:set frame.baseurl=$BASE_URL frame.version=$RELEASE_VERSION
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
