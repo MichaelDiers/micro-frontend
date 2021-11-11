@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - main
-    pathes: frontend\frame
+    pathes: frontend/frame
   workflow_dispatch:
 jobs:
   main:
@@ -30,3 +30,6 @@ jobs:
         run: npx firebase-tools deploy --only functions --token "$FIREBASE_TOKEN"
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
+  defaults:
+  run:
+    working-directory: 'frontend/frame'
