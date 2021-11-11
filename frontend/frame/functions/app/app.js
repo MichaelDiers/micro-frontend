@@ -16,6 +16,7 @@ const initialize = (config = {}) => {
       error: errorRoute,
       frame: frameRoute,
       license: licenseRoute,
+      pictureCredit: pictureCreditRoute,
     },
     view: {
       engine: viewEngine,
@@ -34,6 +35,10 @@ const initialize = (config = {}) => {
   mainRouter.use(errorRoute, router.error({ controller: controller.error(), routeHandler }));
   mainRouter.use(frameRoute, router.frame({ controller: controller.frame(), routeHandler }));
   mainRouter.use(licenseRoute, router.license({ controller: controller.license(), routeHandler }));
+  mainRouter.use(
+    pictureCreditRoute,
+    router.pictureCredit({ controller: controller.pictureCredit(), routeHandler }),
+  );
 
   const app = express();
   middleware.base({ router: app });

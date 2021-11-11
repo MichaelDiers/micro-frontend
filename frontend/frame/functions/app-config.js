@@ -3,7 +3,6 @@ const firebaseFunctions = require('firebase-functions');
 const initialize = () => {
   const {
     baseurl: baseUrl,
-    licenses,
   } = firebaseFunctions.config().frame;
 
   const config = {
@@ -18,6 +17,7 @@ const initialize = () => {
       error: '/error',
       frame: '/frame',
       license: '/license',
+      pictureCredit: '/pictureCredit',
     },
     statics: {
       folder: 'app/public',
@@ -38,10 +38,7 @@ const initialize = () => {
   config.url.jsFiles = config.jsFiles.map((jsFile) => `${config.url.publicUrl}/${jsFile}`);
   config.url.cssFiles = config.cssFiles.map((cssFile) => `${config.url.publicUrl}/${cssFile}`);
   config.url.licenseUrl = `${baseUrl}${config.route.license}`;
-
-  if (licenses) {
-    config.url.licenses = licenses.split('##');
-  }
+  config.url.pictureCreditUrl = `${baseUrl}${config.route.pictureCredit}`;
 
   return config;
 };

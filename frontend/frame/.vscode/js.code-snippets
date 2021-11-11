@@ -6,6 +6,7 @@
       "const express = require('express');",
       "",
       "/**",
+      " * Initialize the ${TM_FILENAME_BASE/-router//} router.",
       " * @param {object} options An object containing the paramter to initialize the router.",
       " * @returns A new express.Router or the given router from the options.",
       " */",
@@ -65,20 +66,4 @@
     ],
     "description": "add router and controller to app"
   },
-  "Add pug view": {
-    "scope": "jade",
-    "prefix": ["md_pug_view"],
-    "body": [
-      "extends ../extends/layout",
-      "",
-      "block variables",
-      "  - var title = '${TM_DIRECTORY/^.+\\\\(.*)$/${1:/capitalize}/} $TM_FILENAME_BASE'",
-      "  - var pageId = 'id_${UUID/-//g}'",
-      "",
-      "block content",
-      "  h1 ${TM_DIRECTORY/^.+\\\\(.*)$/${1:/capitalize}/} $TM_FILENAME_BASE",
-      ""
-    ],
-    "description": "add pug view"
-  }
 }
