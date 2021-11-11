@@ -19,10 +19,8 @@ jobs:
         with:
           node-version: 14.x
       - name: install dependencies
-        working-directory: functions
         run: npm install
       - name: set config
-        working-directory: functions
         run: npx firebase-tools functions:config:set survey.baseurl=$BASE_URL survey.version=$RELEASE_VERSION
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
@@ -33,4 +31,4 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
 defaults:
   run:
-    working-directory: 'frontend/frame'
+    working-directory: 'frontend/frame/functions'
