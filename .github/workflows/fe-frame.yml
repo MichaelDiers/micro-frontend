@@ -1,0 +1,32 @@
+name: fe-frame
+on:
+  push:
+    branches:
+      - main
+    pathes: frontend\frame
+  workflow_dispatch:
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    environment:
+      name: fe-frame-production
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: use node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: install dependencies
+        working-directory: functions
+        run: npm install
+      - name: set config
+        working-directory: functions
+        run: npx firebase-tools functions:config:set survey.baseurl=$BASE_URL survey.version=$RELEASE_VERSION
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          RELEASE_VERSION: ${{ github.event.release.tag_name }}
+      - name: deploy firebase function
+        run: npx firebase-tools deploy --only functions --token "$FIREBASE_TOKEN"
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
