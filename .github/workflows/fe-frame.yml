@@ -3,7 +3,8 @@ on:
   push:
     branches:
       - main
-    pathes: frontend/frame
+    pathes: 
+      - 'frontend/frame/**'
   workflow_dispatch:
 jobs:
   main:
