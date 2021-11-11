@@ -31,5 +31,5 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
   defaults:
-  run:
-    working-directory: 'frontend/frame'
+    run:
+      working-directory: 'frontend/frame'
