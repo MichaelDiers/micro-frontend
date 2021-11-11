@@ -1,2 +1,2 @@
-body{margin:0}h1,h2,h3,h4,h5{text-align:center}.grid-col-1{display:-ms-grid;display:grid;gap:10px;-ms-grid-columns:(auto)[1];grid-template-columns:repeat(1, auto);place-items:center}
+body{margin:0}h1,h2,h3,h4,h5{text-align:center}.grid-col-1{display:-ms-grid;display:grid;gap:10px;-ms-grid-columns:(auto)[1];grid-template-columns:repeat(1, auto);place-items:center}.grid-col-2{display:-ms-grid;display:grid;gap:10px;-ms-grid-columns:(auto)[2];grid-template-columns:repeat(2, auto);place-items:center}
 /*# sourceMappingURL=client.min.css.map */

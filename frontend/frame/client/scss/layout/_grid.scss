@@ -1,3 +1,7 @@
 .grid-col-1 {
   @include grid-columns(1);
 }
+
+.grid-col-2 {
+  @include grid-columns(2);
+}

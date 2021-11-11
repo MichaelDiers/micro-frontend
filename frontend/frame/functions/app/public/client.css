@@ -18,4 +18,13 @@ h5 {
       grid-template-columns: repeat(1, auto);
   place-items: center;
 }
+
+.grid-col-2 {
+  display: -ms-grid;
+  display: grid;
+  gap: 10px;
+  -ms-grid-columns: (auto)[2];
+      grid-template-columns: repeat(2, auto);
+  place-items: center;
+}
 /*# sourceMappingURL=client.css.map */
