@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&family=Permanent+Marker&display=swap");
 html {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -22,12 +23,20 @@ a:active {
   text-decoration: none;
 }
 
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5 {
   text-align: center;
+}
+
+.brand {
+  font-family: "Permanent Marker", cursive;
 }
 
 .medium,
