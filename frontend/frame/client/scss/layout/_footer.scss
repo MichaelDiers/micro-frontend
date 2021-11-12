@@ -1,0 +1,9 @@
+footer {
+  align-items: center;
+  background: $color-footer-background;
+  color: $color-footer;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  min-height: 50px;
+}

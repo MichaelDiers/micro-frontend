@@ -39,7 +39,7 @@ const initialize = () => {
   config.url.cssFiles = config.cssFiles.map((cssFile) => `${config.url.publicUrl}/${cssFile}`);
   config.url.licenseUrl = `${baseUrl}${config.route.license}`;
   config.url.pictureCreditUrl = `${baseUrl}${config.route.pictureCredit}`;
-
+  config.url.home = `${baseUrl}${config.route.frame}`;
   return config;
 };
 

@@ -1,0 +1,17 @@
+$color-dark: hsl(0, 15%, 10%);
+$color-light: hsl(0, 12%, 98%);
+
+$color-footer-background: $color-dark;
+$color-footer: $color-light;
+
+$image-header-small: 'header.300_100.JPG';
+$image-header-medium: 'header.600_100.JPG';
+$image-header-large: 'header.900_100.JPG';
+$image-header-huge: 'header.1200_100.JPG';
+
+$breakpoints: (
+  'small': (min-width: 100px),
+  'medium': (min-width: 600px),
+  'large': (min-width: 900px),
+  'huge': (min-width: 1200px),
+);

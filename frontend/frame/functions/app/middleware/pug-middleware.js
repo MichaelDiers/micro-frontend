@@ -10,6 +10,7 @@ const initialize = (options = {}) => {
         licenseUrl,
         pictureCreditUrl,
         publicUrl,
+        home: homeUrl,
       },
     },
     router = express.Router(),
@@ -23,6 +24,7 @@ const initialize = (options = {}) => {
       licenseUrls: licenses,
       licenseUrl,
       pictureCreditUrl,
+      homeUrl,
       favicon: [
         {
           rel: 'apple-touch-icon',

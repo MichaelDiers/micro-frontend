@@ -1,0 +1,35 @@
+.medium,
+.large,
+.huge {
+  display: none;
+}
+
+@include respond-to(medium) {
+  .small {
+    display: none;
+  }
+
+  .medium {
+    display: block;
+  }
+}
+
+@include respond-to(large) {
+  .medium {
+    display: none;
+  }
+
+  .large {
+    display: block;
+  }
+}
+
+@include respond-to(huge) {
+  .large {
+    display: none;
+  }
+
+  .huge {
+    display: block;
+  }
+}

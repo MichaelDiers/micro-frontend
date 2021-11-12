@@ -1,3 +1,23 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  position: sticky;
+  top: 0;
+}
+
+main {
+  flex: 1;
+}
+
+footer {
+  bottom: 0;
+  position: sticky;
+}
+
 .grid-col-1 {
   @include grid-columns(1);
 }
