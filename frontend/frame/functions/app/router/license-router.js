@@ -1,6 +1,7 @@
 const express = require('express');
 
 /**
+ * Initialize route for accessing the used nodejs components and licenses.
  * @param {object} options An object containing the paramter to initialize the router.
  * @returns A new express.Router or the given router from the options.
  */

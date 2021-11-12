@@ -22,7 +22,7 @@ jobs:
         run: npm install
       - name: create _address.js
         run: |
-          printf "const address = { licenses: [ '$BASE_URL/public/license.json' ] };" > ../client/js/_address.js
+          printf "const address = { licenses: [ '$BASE_URL/public/license.json' ], pictureCredits: [ '$BASE_URL/public/picture-credit.json' ] };" > ../client/js/_address.js
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
       - name: uglyfy
