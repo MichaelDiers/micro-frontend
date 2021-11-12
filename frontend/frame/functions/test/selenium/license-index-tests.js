@@ -3,6 +3,7 @@
 const assert = require('assert');
 const BasePage = require('./pages/base-page');
 const LicenseIndexPage = require('./pages/license-index-page');
+const windowSize = require('./helper/window-size');
 
 describe('license/index page', function () {
   let driver = null;
@@ -16,21 +17,14 @@ describe('license/index page', function () {
     await driver.quit();
   });
 
-  describe('mobile', function () {
-    it('check headline', async function () {
-      await BasePage.mobilescreen(driver);
-      const page = new LicenseIndexPage(driver);
-      await page.request();
-      assert.equal(await page.headline(), 'License index');
-    });
-  });
-
-  describe('fullscreen', function () {
-    it('check headline', async function () {
-      await BasePage.mobilescreen(driver);
-      const page = new LicenseIndexPage(driver);
-      await page.request();
-      assert.equal(await page.headline(), 'License index');
+  windowSize.sizes().forEach((setSizeFunction) => {
+    describe(setSizeFunction.name, function () {
+      it('check headline', async function () {
+        await setSizeFunction(driver);
+        const page = new LicenseIndexPage(driver);
+        await page.request();
+        assert.equal(await page.headline(), 'License index');
+      });
     });
   });
 });

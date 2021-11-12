@@ -3,6 +3,7 @@
 const assert = require('assert');
 const BasePage = require('./pages/base-page');
 const FrameIndexPage = require('./pages/frame-index-page');
+const windowSize = require('./helper/window-size');
 
 describe('frame/index page', function () {
   let driver = null;
@@ -16,21 +17,14 @@ describe('frame/index page', function () {
     await driver.quit();
   });
 
-  describe('mobile', function () {
-    it('check headline', async function () {
-      await BasePage.mobilescreen(driver);
-      const frameIndexPage = new FrameIndexPage(driver);
-      await frameIndexPage.request();
-      assert.equal(await frameIndexPage.headline(), 'Frame index');
-    });
-  });
-
-  describe('fullscreen', function () {
-    it('check headline', async function () {
-      await BasePage.fullscreen(driver);
-      const frameIndexPage = new FrameIndexPage(driver);
-      await frameIndexPage.request();
-      assert.equal(await frameIndexPage.headline(), 'Frame index');
+  windowSize.sizes().forEach((setSizeFunction) => {
+    describe(setSizeFunction.name, function () {
+      it('check headline', async function () {
+        await setSizeFunction(driver);
+        const frameIndexPage = new FrameIndexPage(driver);
+        await frameIndexPage.request();
+        assert.equal(await frameIndexPage.headline(), 'Frame index');
+      });
     });
   });
 });

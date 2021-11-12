@@ -1,5 +1,4 @@
 /** eslint-disable func-names */
-const { By } = require('selenium-webdriver');
 const BasePage = require('./base-page');
 const config = require('../helper/selenium-config');
 
@@ -9,12 +8,7 @@ class LicenseIndexPage extends BasePage {
   }
 
   async headline() {
-    const element = await this.driver.findElement(By.css('main > h1'));
-    if (element) {
-      return element.getText();
-    }
-
-    return null;
+    return super.getText('main > h1');
   }
 }
 

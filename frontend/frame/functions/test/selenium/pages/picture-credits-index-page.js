@@ -1,10 +1,9 @@
-/** eslint-disable func-names */
 const BasePage = require('./base-page');
 const config = require('../helper/selenium-config');
 
-class FrameIndexPage extends BasePage {
+class PictureCreditsIndexPage extends BasePage {
   constructor(driver) {
-    super(driver, config.url.frameIndex, 'id_c414bd3632514e83807ad8faf0b651a1');
+    super(driver, config.url.pictureCreditsIndex, 'id_ca156b87aaaf42fd9ff1ccecda7828c2');
   }
 
   async headline() {
@@ -12,4 +11,4 @@ class FrameIndexPage extends BasePage {
   }
 }
 
-module.exports = FrameIndexPage;
+module.exports = PictureCreditsIndexPage;

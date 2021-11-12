@@ -1,4 +1,5 @@
 const { Builder, By, until } = require('selenium-webdriver');
+const firefox = require('selenium-webdriver/firefox');
 const config = require('../helper/selenium-config');
 
 class BasePage {
@@ -27,26 +28,31 @@ class BasePage {
     return element !== null && await element.getAttribute('id') === this.id;
   }
 
+  async clickOn(cssSelector) {
+    const element = await this.driver.findElement(By.css(cssSelector));
+    return element.click();
+  }
+
+  async getText(cssSelector) {
+    const element = await this.driver.findElement(By.css(cssSelector));
+    if (element) {
+      return element.getText();
+    }
+
+    return null;
+  }
+
   static async driver() {
-    return new Builder().forBrowser('firefox').build();
-  }
-
-  static async fullscreen(driver) {
-    await driver.manage().window().fullscreen();
-  }
-
-  static async mobilescreen(driver) {
-    await driver.manage().window().setRect({
-      width: 300,
-      height: 800,
-      x: 0,
-      y: 0,
-    });
+    return new Builder().forBrowser('firefox').setFirefoxOptions(new firefox.Options().headless()).build();
   }
 
   async request(timeout = config.timeout.checkPageId) {
     await this.driver.get(this.url);
     return this.checkPageId(timeout);
+  }
+
+  setDriver(driver) {
+    this.driver = driver;
   }
 }
 

@@ -12,5 +12,6 @@ const config = {
 
 config.url.frameIndex = `${config.url.baseUrl}/frame`;
 config.url.licenseIndex = `${config.url.baseUrl}/license`;
+config.url.pictureCreditsIndex = `${config.url.baseUrl}/pictureCredit`;
 
 module.exports = config;
