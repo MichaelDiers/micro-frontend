@@ -1,0 +1,69 @@
+{
+  "Initialize Router Module": {
+    "scope": "javascript",
+    "prefix": ["md_router"],
+    "body": [
+      "const express = require('express');",
+      "",
+      "/**",
+      " * Initialize the ${TM_FILENAME_BASE/-router//} router.",
+      " * @param {object} options An object containing the paramter to initialize the router.",
+      " * @returns A new express.Router or the given router from the options.",
+      " */",
+      "const initialize = (options = {}) => {",
+      "  const {",
+      "    controller,",
+      "    routeHandler,",
+      "    router = express.Router(),",
+      "  } = options;",
+      "",
+      "  router.get('/', async (req, res) => routeHandler(res, controller.index()));",
+      "",
+      "  return router;",
+      "};",
+      "",
+      "module.exports = initialize;",
+      ""
+    ],
+    "description": "create a new router module"    
+  },
+  "Initialize Controller Module": {
+    "scope": "javascript",
+    "prefix": ["md_controller"],
+    "body": [
+      "/**",
+      " * Initialize the ${TM_FILENAME_BASE/-controller//} controller.",
+      " * @returns The controller as an object.",
+      " */",
+      "const initialize = () => {",
+      "  const controller = {",
+      "    /**",
+      "     * Render the index page of the ${TM_FILENAME_BASE/-controller//} route.",
+      "     * @returns An object that contains the name of the view and optional render",
+      "     *   parameters as { view, options }.",
+      "     */",
+      "    index: async () => {",
+      "      const result = {",
+      "        view: '${TM_FILENAME_BASE/-controller//}/index',",
+      "      };",
+      "      return result;",
+      "    },",
+      "  };",
+      "",
+      "  return controller;",
+      "};",
+      "",
+      "module.exports = initialize;",
+      ""
+    ],
+    "description": "create a new controller module"
+  },
+  "Add router / controller": {
+    "scope": "javascript",
+    "prefix": ["md_add_router"],
+    "body": [
+      "${1:router}.use(${2:routeName}Route, router.$2({ controller: controller.$2(), routeHandler }));"
+    ],
+    "description": "add router and controller to app"
+  },
+}
