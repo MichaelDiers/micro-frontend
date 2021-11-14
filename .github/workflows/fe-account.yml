@@ -22,7 +22,7 @@ jobs:
         run: npm install
       - name: create _address.js
         run: |
-          printf "const address = { accountIndex: '$ACCOUNT_INDEX', accountLogon: '$ACCOUNT_LOGON' };" > ../client/js/_address.js
+          printf "const accountAddress = { accountIndex: '$ACCOUNT_INDEX', accountLogon: '$ACCOUNT_LOGON' };" > ../client/js/_address.js
         env:
           ACCOUNT_INDEX: ${{ secrets.ACCOUNT_INDEX }}
           ACCOUNT_LOGON: ${{ secrets.ACCOUNT_LOGON }}
