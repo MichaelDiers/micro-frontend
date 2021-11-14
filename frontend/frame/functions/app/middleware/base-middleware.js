@@ -1,4 +1,5 @@
 const compression = require('compression');
+const cors = require('cors');
 const express = require('express');
 const helmet = require('helmet');
 
@@ -27,6 +28,7 @@ const initialize = (options = {}) => {
       },
     }),
   );
+  router.use(cors());
   router.use(compression());
   router.use(express.urlencoded({ extended: false }));
   router.use(express.json());
