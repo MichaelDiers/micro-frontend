@@ -28,7 +28,11 @@ const initialize = (options = {}) => {
       },
     }),
   );
-  router.use(cors());
+  router.use(cors({
+    origin: [accountBaseUrl],
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  }));
   router.use(compression());
   router.use(express.urlencoded({ extended: false }));
   router.use(express.json());
