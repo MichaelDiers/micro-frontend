@@ -28,11 +28,12 @@ jobs:
       - name: uglyfy
         run: npm run ugly
       - name: set config
-        run: npx firebase-tools functions:config:set frame.baseurl=$BASE_URL frame.version=$RELEASE_VERSION
+        run: npx firebase-tools functions:config:set frame.baseurl=$BASE_URL frame.version=$RELEASE_VERSION frame.accountbaseurl=$ACCOUNT_BASE_URL
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
           RELEASE_VERSION: ${{ github.event.release.tag_name }}
+	  $ACCOUNT_BASE_URL: ${{ secrets.ACCOUNT_BASE_URL }}
       - name: deploy firebase function
         run: npx firebase-tools deploy --only functions --token "$FIREBASE_TOKEN"
         env:

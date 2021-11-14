@@ -144,7 +144,7 @@ header > .logo {
   min-width: 48px;
 }
 
-header > #accountIndex {
+header > .account-index {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
