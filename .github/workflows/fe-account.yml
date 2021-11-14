@@ -1,0 +1,43 @@
+name: fe-account
+on:
+  push:
+    branches:
+      - main
+    paths: 
+      - 'frontend/account/**'
+  workflow_dispatch:
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    environment:
+      name: fe-account-production
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: use node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: install dependencies
+        run: npm install
+      - name: create _address.js
+        run: |
+          printf "const address = { accountIndex: '$ACCOUNT_INDEX', accountLogon: '$ACCOUNT_LOGON' };" > ../client/js/_address.js
+        env:
+          ACCOUNT_INDEX: ${{ secrets.ACCOUNT_INDEX }}
+          ACCOUNT_LOGON: ${{ secrets.ACCOUNT_LOGON }}
+      - name: uglyfy
+        run: npm run ugly
+      - name: set config
+        run: npx firebase-tools functions:config:set account.baseurl=$BASE_URL frame.version=$RELEASE_VERSION
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
+          RELEASE_VERSION: ${{ github.event.release.tag_name }}
+      - name: deploy firebase function
+        run: npx firebase-tools deploy --only functions --token "$FIREBASE_TOKEN"
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
+defaults:
+  run:
+    working-directory: 'frontend/account/functions'
