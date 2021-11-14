@@ -144,6 +144,15 @@ header > .logo {
   min-width: 48px;
 }
 
+header > #accountIndex {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 @media (min-width: 600px) {
   header {
     background-image: url("header.600_100.JPG");

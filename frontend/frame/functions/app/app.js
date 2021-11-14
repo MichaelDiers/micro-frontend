@@ -41,7 +41,7 @@ const initialize = (config = {}) => {
   );
 
   const app = express();
-  middleware.base({ router: app });
+  middleware.base({ config, router: app });
 
   app.set('views', viewFolder);
   app.set('view engine', viewEngine);

@@ -7,7 +7,11 @@ function apiCall(url, method, options) { // eslint-disable-line
         if (event.target.status === 200) {
           let result;
           if (event.target.responseText) {
-            result = JSON.parse(event.target.responseText);
+            if (xhttp.getResponseHeader('content-type').startsWith('application/json')) {
+              result = JSON.parse(event.target.responseText);
+            } else {
+              result = event.target.responseText;
+            }
           }
 
           resolve(result);

@@ -2,6 +2,7 @@ const firebaseFunctions = require('firebase-functions');
 
 const initialize = () => {
   const {
+    accountbaseurl: accountBaseUrl,
     baseurl: baseUrl,
   } = firebaseFunctions.config().frame;
 
@@ -24,6 +25,7 @@ const initialize = () => {
       route: '/public',
     },
     url: {
+      accountBaseUrl,
       licenses: [],
     },
     view: {
@@ -36,6 +38,7 @@ const initialize = () => {
   config.url.error500 = `${baseUrl}${config.route.error}/500`;
   config.url.publicUrl = `${baseUrl}${config.statics.route}`;
   config.url.jsFiles = config.jsFiles.map((jsFile) => `${config.url.publicUrl}/${jsFile}`);
+  config.url.jsFiles.push(`${accountBaseUrl}/public/client.min.js`);
   config.url.cssFiles = config.cssFiles.map((cssFile) => `${config.url.publicUrl}/${cssFile}`);
   config.url.licenseUrl = `${baseUrl}${config.route.license}`;
   config.url.pictureCreditUrl = `${baseUrl}${config.route.pictureCredit}`;

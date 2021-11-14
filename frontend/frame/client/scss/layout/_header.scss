@@ -19,6 +19,11 @@ header > .logo {
   min-width: 48px;
 }
 
+header > .account-index {
+  align-items: center;
+  display: flex;
+}
+
 @include respond-to(medium) {
   header {
     background-image: url($image-header-medium);

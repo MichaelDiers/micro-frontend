@@ -10,9 +10,23 @@ const helmet = require('helmet');
 const initialize = (options = {}) => {
   const {
     router = express.Router(),
+    config: {
+      url: {
+        accountBaseUrl,
+      },
+    },
   } = options;
 
   router.use(helmet());
+  router.use(
+    helmet.contentSecurityPolicy({
+      useDefaults: true,
+      directives: {
+        'script-src': ["'self'", accountBaseUrl],
+        'connect-src': ["'self'", accountBaseUrl],
+      },
+    }),
+  );
   router.use(compression());
   router.use(express.urlencoded({ extended: false }));
   router.use(express.json());
