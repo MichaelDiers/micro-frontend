@@ -1,8 +1,8 @@
 const express = require('express');
 
-// const controller = require('./controller/controller');
+const controller = require('./controller/controller');
 const middleware = require('./middleware/middleware');
-// const router = require('./router/router');
+const router = require('./router/router');
 
 const initialize = (config = {}) => {
   const {
@@ -10,8 +10,9 @@ const initialize = (config = {}) => {
       folder: staticFolder,
       route: staticRoute,
     },
-    // route: {
-    // },
+    route: {
+      account: accountRoute,
+    },
     view: {
       engine: viewEngine,
       folder: viewFolder,
@@ -22,6 +23,8 @@ const initialize = (config = {}) => {
 
   const statics = express.static(staticFolder, { index: false });
   mainRouter.use(staticRoute, statics);
+
+  mainRouter.use(accountRoute, router.account({ controller: controller.account() }));
 
   const app = express();
   middleware.base({ router: app });

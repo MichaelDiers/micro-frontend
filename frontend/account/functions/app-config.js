@@ -8,6 +8,7 @@ const initialize = () => {
   const config = {
     logger: firebaseFunctions.logger.error,
     route: {
+      account: '/account',
     },
     statics: {
       folder: 'app/public',
