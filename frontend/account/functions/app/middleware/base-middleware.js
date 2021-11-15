@@ -1,5 +1,4 @@
 const compression = require('compression');
-const cors = require('cors');
 const express = require('express');
 const helmet = require('helmet');
 
@@ -12,13 +11,24 @@ const initialize = (options = {}) => {
   const {
     router = express.Router(),
   } = options;
-
   router.use(helmet());
+  // https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+  router.use((req, res, next) => {
+    res.set('Access-Control-Allow-Origin', 'https://us-central1-frame-25f3b.cloudfunctions.net');
+    // Vary: Origin
+    res.set('Access-Control-Expose-Headers', 'Content-Type, Authorization');
+    res.set('Access-Control-Allow-Credentials', 'true');
+    res.set('Access-Control-Allow-Methods', 'GET, POST');
+    next();
+  });
+  /**
   router.use(cors({
-    origin: ['https://us-central1-frame-25f3b.cloudfunctions.net/frame/'],
-    methods: ['GET', 'POST'],
+    origin: 'https://us-central1-frame-25f3b.cloudfunctions.net',
+    methods: 'GET',
     allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
   }));
+  */
   router.use(compression());
   router.use(express.urlencoded({ extended: false }));
   router.use(express.json());
