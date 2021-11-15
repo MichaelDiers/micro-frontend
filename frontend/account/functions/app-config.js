@@ -3,6 +3,7 @@ const firebaseFunctions = require('firebase-functions');
 const initialize = () => {
   const {
     baseurl: baseUrl,
+    corsfeframe: corsFeFrame,
   } = firebaseFunctions.config().account;
 
   const config = {
@@ -15,6 +16,7 @@ const initialize = () => {
       route: '/public',
     },
     url: {
+      corsFeFrame,
     },
     view: {
       engine: 'pug',

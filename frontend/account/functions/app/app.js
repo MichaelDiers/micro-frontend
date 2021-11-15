@@ -27,7 +27,7 @@ const initialize = (config = {}) => {
   mainRouter.use(accountRoute, router.account({ controller: controller.account() }));
 
   const app = express();
-  middleware.base({ router: app });
+  middleware.base({ config, router: app });
 
   app.set('views', viewFolder);
   app.set('view engine', viewEngine);
