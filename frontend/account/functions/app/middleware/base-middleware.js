@@ -14,7 +14,11 @@ const initialize = (options = {}) => {
   } = options;
 
   router.use(helmet());
-  router.use(cors());
+  router.use(cors({
+    origin: ['https://us-central1-frame-25f3b.cloudfunctions.net/frame/'],
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  }));
   router.use(compression());
   router.use(express.urlencoded({ extended: false }));
   router.use(express.json());
