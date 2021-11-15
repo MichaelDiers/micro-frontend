@@ -1,5 +1,4 @@
 const compression = require('compression');
-const cors = require('cors');
 const express = require('express');
 const helmet = require('helmet');
 
@@ -13,7 +12,8 @@ const initialize = (options = {}) => {
     router = express.Router(),
     config: {
       url: {
-        accountBaseUrl,
+        accountFeHost,
+        accountFePublic,
       },
     },
   } = options;
@@ -23,17 +23,12 @@ const initialize = (options = {}) => {
     helmet.contentSecurityPolicy({
       useDefaults: true,
       directives: {
-        'script-src': ["'self'", accountBaseUrl],
-        'connect-src': ["'self'", accountBaseUrl],
+        'script-src': ["'self'", `${accountFePublic}/`],
+        'connect-src': ["'self'", accountFeHost],
       },
     }),
   );
-  router.use(cors());
-  // router.use(cors({
-  //  origin: [accountBaseUrl],
-  //  methods: ['GET', 'POST'],
-  //  allowedHeaders: ['Content-Type', 'Authorization'],
-  // }));
+
   router.use(compression());
   router.use(express.urlencoded({ extended: false }));
   router.use(express.json());
