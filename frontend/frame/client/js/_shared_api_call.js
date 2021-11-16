@@ -32,8 +32,11 @@ function apiCall(url, method, options) { // eslint-disable-line
       }
     }
 
-    // const data = Object.keys(options).map((key) => `${key}=${options[key]}`).join('&');
-    // xhttp.send(data);
-    xhttp.send();
+    if (options) {
+      const data = Object.keys(options).map((key) => `${key}=${options[key]}`).join('&');
+      xhttp.send(data);
+    } else {
+      xhttp.send();
+    }
   });
 }

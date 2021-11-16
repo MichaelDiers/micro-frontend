@@ -39,6 +39,7 @@ const initialize = (config = {}) => {
     pictureCreditRoute,
     router.pictureCredit({ controller: controller.pictureCredit(), routeHandler }),
   );
+  mainRouter.use('/account', router.account({ controller: controller.account(), routeHandler }));
 
   const app = express();
   middleware.base({ config, router: app });

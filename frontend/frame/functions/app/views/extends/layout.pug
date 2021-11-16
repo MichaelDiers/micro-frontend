@@ -6,8 +6,6 @@ html(lang=pugOptions.lang)
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width', initial-scale=1.0)
     meta(name='google', content='notranslate')
-    each url, index in pugOptions.licenseUrls
-      meta(name=`license_${index}`, content=url)
     title= title
     each link in pugOptions.favicon
       link(rel=link.rel, type=link.type, sizes=link.sizes, href=link.href)

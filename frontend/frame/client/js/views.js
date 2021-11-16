@@ -1,14 +1,31 @@
-document.addEventListener('accountIndexViewRequest', (e) => { // eslint-disable-line no-undef
-  e.preventDefault();
-  const accountIndexElement = document.querySelector('.account-index'); // eslint-disable-line no-undef
-  accountIndexElement.innerHTML = e.detail.view;
-  e.detail.callback().catch(handleError); // eslint-disable-line no-undef
-});
+/**
+ * Search for frame-request-by attributed elements and raise the event for
+ * replacing the innerHTML of the element. The replacement has to be handled
+ * by a different micro frontend.
+ */
+const frameReplaceElements = async () => {
+  const frameRequestAttributeName = 'frame-request-by';
+  const baseAddress = `${window.location.href.split('framefe')[0]}framefe`; // eslint-disable-line no-undef
 
-document.addEventListener('mainViewRequest', (e) => { // eslint-disable-line no-undef
-  e.preventDefault();
-  const mainElement = document.getElementsByTagName('main'); // eslint-disable-line no-undef
-  if (mainElement && mainElement[0]) {
-    mainElement[0].innerHTML = e.detail.view;
-  }
-});
+  document.addEventListener('DOMContentLoaded', () => { // eslint-disable-line no-undef
+    const elements = document.querySelectorAll(`[${frameRequestAttributeName}]`); // eslint-disable-line no-undef
+    if (elements && elements.forEach) {
+      elements.forEach((element) => {
+        const frameRequestAttribute = element.getAttribute(frameRequestAttributeName);
+        element.removeAttribute(frameRequestAttributeName);
+        element.dispatchEvent(
+          new CustomEvent( // eslint-disable-line no-undef
+            frameRequestAttribute,
+            {
+              bubbles: true,
+              cancelable: true,
+              detail: baseAddress,
+            },
+          ),
+        );
+      });
+    }
+  });
+};
+
+frameReplaceElements().catch(handleError); // eslint-disable-line no-undef
