@@ -39,6 +39,10 @@ h5 {
   font-family: "Permanent Marker", cursive;
 }
 
+.error {
+  border-color: #ffb3b3;
+}
+
 .medium,
 .large,
 .huge {
