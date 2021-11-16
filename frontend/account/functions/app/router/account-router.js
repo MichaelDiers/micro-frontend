@@ -27,6 +27,14 @@ const initialize = (options = {}) => {
     }
   });
 
+  router.post('/logon', async (req, res) => {
+    const result = await controller.logonPost(req.body);
+    if (result) {
+      const { view, options: viewOptions } = result;
+      res.render(view, viewOptions);
+    }
+  });
+
   return router;
 };
 

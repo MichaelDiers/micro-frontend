@@ -29,6 +29,19 @@ const initialize = () => {
 
       return result;
     },
+
+    logonPost: async (body = {}) => {
+      const { email } = body;
+
+      const result = {
+        view: 'account/welcomeBack',
+        options: {
+          name: email,
+        },
+      };
+
+      return result;
+    },
   };
 
   return controller;

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../../../client/scss/client.scss"
+    ],
+    "names": [],
+    "file": "client.min.css"
+}

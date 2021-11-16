@@ -1,33 +1,28 @@
-const accountView = async () => {
-  document.addEventListener('DOMContentLoaded', () => { // eslint-disable-line no-undef
-    apiCall(accountAddress.accountIndex, 'GET').then((accontIndexView) => { // eslint-disable-line no-undef
-      const callback = async () => {
-        const element = document.getElementById('account_load_logon'); // eslint-disable-line no-undef
-        if (element) {
-          element.addEventListener('click', () => {
-            apiCall(accountAddress.accountLogon, 'GET').then((accountLogonView) => { // eslint-disable-line no-undef
-              document.dispatchEvent(new CustomEvent('mainViewRequest', { // eslint-disable-line no-undef
-                bubbles: true,
-                cancelable: true,
-                detail: {
-                  view: accountLogonView,
-                },
-              }));
-            }).catch(handleError); // eslint-disable-line no-undef
-          });
-        }
-      };
+const accountEvents = async () => {
+  const handleEvent = async (url, method, localUrl, targetElement, body) => {
+    const target = targetElement;
+    return apiCall(url, method, body).then((view) => { // eslint-disable-line no-undef
+      target.innerHTML = view.replace(/__LOCAL__URL__/, localUrl);
+    }).catch(handleError); // eslint-disable-line no-undef
+  };
 
-      document.dispatchEvent(new CustomEvent('accountIndexViewRequest', { // eslint-disable-line no-undef
-        bubbles: true,
-        cancelable: true,
-        detail: {
-          view: accontIndexView,
-          callback,
-        },
-      }));
+  document.addEventListener('accountHeaderLinkRequest', (e) => { // eslint-disable-line no-undef
+    handleEvent(accountAddress.accountIndex, 'GET', e.detail, e.target).catch(handleError); // eslint-disable-line no-undef
+  });
+
+  document.addEventListener('accountlogonRequest', (e) => { // eslint-disable-line no-undef
+    handleEvent(accountAddress.accountLogon, 'GET', e.detail, e.target).then(() => { // eslint-disable-line no-undef
+      const element = e.target.querySelector('#accountLogonFormSubmit');
+      if (element) {
+        element.addEventListener('click', (innerEvent) => {
+          innerEvent.preventDefault();
+          const email = e.target.querySelector('#accountLogonFormEmail')?.value;
+          const password = e.target.querySelector('#accountLogonFormPassword')?.value;
+          handleEvent(accountAddress.accountLogon, 'POST', e.detail, e.target, { email, password }).catch(handleError); // eslint-disable-line no-undef
+        });
+      }
     }).catch(handleError); // eslint-disable-line no-undef
   });
 };
 
-accountView().catch(handleError); // eslint-disable-line no-undef
+accountEvents().catch(handleError); // eslint-disable-line no-undef
