@@ -22,10 +22,11 @@ jobs:
         run: npm install
       - name: create _address.js
         run: |
-          printf "const accountAddress = { accountIndex: '$ACCOUNT_INDEX', accountLogon: '$ACCOUNT_LOGON' };" > ../client/js/_address.js
+          printf "const accountAddress = { accountIndex: '$ACCOUNT_INDEX', accountLogon: '$ACCOUNT_LOGON', accountVersion: '$ACCOUNT_VERSION' };" > ../client/js/_address.js
         env:
           ACCOUNT_INDEX: ${{ secrets.ACCOUNT_INDEX }}
           ACCOUNT_LOGON: ${{ secrets.ACCOUNT_LOGON }}
+          ACCOUNT_VERSION: ${{ secrets.ACCOUNT_VERSION }}
       - name: uglyfy
         run: npm run ugly
       - name: set config
