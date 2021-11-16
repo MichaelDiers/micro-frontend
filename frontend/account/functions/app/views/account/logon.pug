@@ -1,7 +1,20 @@
 h1 Willkommen zurück!
 form#accountLogonForm.grid-col-1
   label(for='accountLogonFormEmail') Email
-  input#accountLogonFormEmail(type='email', name='email', placeholder='deine@email.de')
-  label(for='accountLogonFormEmailPassword') Passwort
-  input#accountLogonFormPassword(type='password', name='password', placeholder='mind. 8 Zeichen')
+  #accountLogonFormEmailError
+  input#accountLogonFormEmail(
+    type='email',
+    name='email',
+    placeholder='deine@email.de',
+    required, minlength='5',
+    maxlegnth='75')
+  label(for='accountLogonFormPassword') Passwort
+  #accountLogonFormPasswordError
+  input#accountLogonFormPassword(
+    type='password',
+    name='password',
+    placeholder='mind. 8 Zeichen',
+    required,
+    minlength='8',
+    maxlegnth='50')
   input#accountLogonFormSubmit(type='submit', value='anmelden')

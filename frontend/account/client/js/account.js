@@ -16,9 +16,11 @@ const accountEvents = async () => {
       if (element) {
         element.addEventListener('click', (innerEvent) => {
           innerEvent.preventDefault();
-          const email = e.target.querySelector('#accountLogonFormEmail')?.value;
-          const password = e.target.querySelector('#accountLogonFormPassword')?.value;
-          handleEvent(accountAddress.accountLogon, 'POST', e.detail, e.target, { email, password }).catch(handleError); // eslint-disable-line no-undef
+          if (formValidation(e.target, '#accountLogonFormEmail', '#accountLogonFormPassword') === true) { // eslint-disable-line no-undef
+            const email = e.target.querySelector('#accountLogonFormEmail').value;
+            const password = e.target.querySelector('#accountLogonFormPassword').value;
+            handleEvent(accountAddress.accountLogon, 'POST', e.detail, e.target, { email, password }).catch(handleError); // eslint-disable-line no-undef
+          }
         });
       }
     }).catch(handleError); // eslint-disable-line no-undef
