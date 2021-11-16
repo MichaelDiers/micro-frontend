@@ -4,12 +4,14 @@ const initialize = () => {
   const {
     baseurl: baseUrl,
     corsfeframe: corsFeFrame,
+    version,
   } = firebaseFunctions.config().account;
 
   const config = {
     logger: firebaseFunctions.logger.error,
     route: {
       account: '/account',
+      version: '/version',
     },
     statics: {
       folder: 'app/public',
@@ -18,6 +20,7 @@ const initialize = () => {
     url: {
       corsFeFrame,
     },
+    version,
     view: {
       engine: 'pug',
       folder: './app/views',

@@ -23,6 +23,10 @@ const accountEvents = async () => {
       }
     }).catch(handleError); // eslint-disable-line no-undef
   });
+
+  document.addEventListener('accountFeVersion', (e) => { // eslint-disable-line no-undef
+    handleEvent(accountAddress.accountVersion, 'GET', e.detail, e.target).catch(handleError); // eslint-disable-line no-undef
+  });
 };
 
 accountEvents().catch(handleError); // eslint-disable-line no-undef

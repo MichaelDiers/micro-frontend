@@ -12,6 +12,7 @@ const initialize = (config = {}) => {
     },
     route: {
       account: accountRoute,
+      version: versionRoute,
     },
     view: {
       engine: viewEngine,
@@ -23,8 +24,10 @@ const initialize = (config = {}) => {
 
   const statics = express.static(staticFolder, { index: false });
   mainRouter.use(staticRoute, statics);
+  mainRouter.use(middleware.pug({ config }));
 
   mainRouter.use(accountRoute, router.account({ controller: controller.account() }));
+  mainRouter.use(versionRoute, router.version({ controller: controller.version() }));
 
   const app = express();
   middleware.base({ config, router: app });
