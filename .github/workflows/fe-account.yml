@@ -34,7 +34,7 @@ jobs:
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
-          RELEASE_VERSION: ${{ github.event.release.tag_name }}
+          RELEASE_VERSION: ${{ github.run_number }}
           CORS_FE_FRAME: ${{ secrets.CORS_FE_FRAME }}
       - name: deploy firebase function
         run: npx firebase-tools deploy --only functions --token "$FIREBASE_TOKEN"

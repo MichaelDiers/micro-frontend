@@ -34,7 +34,7 @@ jobs:
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
-          RELEASE_VERSION: ${{ github.event.release.tag_name }}
+          RELEASE_VERSION: ${{ github.run_number }}
           ACCOUNT_FE_HOST: ${{ secrets.ACCOUNT_FE_HOST }}
           ACCOUNT_FE_PATH: ${{ secrets.ACCOUNT_FE_PATH }}
       - name: deploy firebase function
