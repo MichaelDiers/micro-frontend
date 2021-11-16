@@ -5,6 +5,7 @@ const initialize = () => {
     accountfehost: accountFeHost,
     accountfepath: accountFePath,
     baseurl: baseUrl,
+    version,
   } = firebaseFunctions.config().frame;
 
   const config = {
@@ -16,10 +17,12 @@ const initialize = () => {
     ],
     logger: firebaseFunctions.logger.error,
     route: {
+      account: '/account',
       error: '/error',
       frame: '/frame',
       license: '/license',
       pictureCredit: '/pictureCredit',
+      version: '/version',
     },
     statics: {
       folder: 'app/public',
@@ -29,6 +32,7 @@ const initialize = () => {
       accountFeHost,
       licenses: [],
     },
+    version,
     view: {
       engine: 'pug',
       folder: './app/views',
@@ -45,6 +49,7 @@ const initialize = () => {
   config.url.licenseUrl = `${baseUrl}${config.route.license}`;
   config.url.pictureCreditUrl = `${baseUrl}${config.route.pictureCredit}`;
   config.url.home = `${baseUrl}${config.route.frame}`;
+  config.url.versionUrl = `${baseUrl}${config.route.version}`;
   return config;
 };
 

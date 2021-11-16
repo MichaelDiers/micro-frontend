@@ -16,7 +16,9 @@ const initialize = (options = {}) => {
         pictureCreditUrl,
         publicUrl,
         home: homeUrl,
+        versionUrl,
       },
+      version,
     },
     router = express.Router(),
   } = options;
@@ -50,6 +52,8 @@ const initialize = (options = {}) => {
           type: 'image/png',
         },
       ],
+      version,
+      versionUrl,
     };
 
     res.locals.pugOptions = pugOptions;

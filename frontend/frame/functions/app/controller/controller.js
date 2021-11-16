@@ -6,6 +6,7 @@ const error = require('./error-controller');
 const frame = require('./frame-controller');
 const license = require('./license-controller');
 const pictureCredit = require('./picture-credit-controller');
+const version = require('./version-controller');
 
 module.exports = {
   account,
@@ -13,4 +14,5 @@ module.exports = {
   frame,
   license,
   pictureCredit,
+  version,
 };

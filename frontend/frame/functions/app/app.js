@@ -13,10 +13,12 @@ const initialize = (config = {}) => {
       route: staticRoute,
     },
     route: {
+      account: accountRoute,
       error: errorRoute,
       frame: frameRoute,
       license: licenseRoute,
       pictureCredit: pictureCreditRoute,
+      version: versionRoute,
     },
     view: {
       engine: viewEngine,
@@ -39,7 +41,8 @@ const initialize = (config = {}) => {
     pictureCreditRoute,
     router.pictureCredit({ controller: controller.pictureCredit(), routeHandler }),
   );
-  mainRouter.use('/account', router.account({ controller: controller.account(), routeHandler }));
+  mainRouter.use(accountRoute, router.account({ controller: controller.account(), routeHandler }));
+  mainRouter.use(versionRoute, router.version({ controller: controller.version(), routeHandler }));
 
   const app = express();
   middleware.base({ config, router: app });
