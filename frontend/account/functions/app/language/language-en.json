@@ -1,0 +1,14 @@
+{
+  "accountWelcomeBack": {
+    "headline": "Welcome back, "
+  },
+  "accountLogon": {
+    "headline": "Welcome back!",
+    "email": "Email",
+    "password": "Password",
+    "submit": "signin"
+  },
+  "accountIndex": {
+    "account": "Account"
+  }
+}

@@ -1,6 +1,6 @@
-h1 Willkommen zurück!
+h1= translations.accountLogon.headline
 form#accountLogonForm.grid-col-1
-  label(for='accountLogonFormEmail') Email
+  label(for='accountLogonFormEmail')= translations.accountLogon.email
   #accountLogonFormEmailError
   input#accountLogonFormEmail(
     type='email',
@@ -8,7 +8,7 @@ form#accountLogonForm.grid-col-1
     placeholder='deine@email.de',
     required, minlength='5',
     maxlegnth='75')
-  label(for='accountLogonFormPassword') Passwort
+  label(for='accountLogonFormPassword')= translations.accountLogon.password
   #accountLogonFormPasswordError
   input#accountLogonFormPassword(
     type='password',
@@ -17,4 +17,4 @@ form#accountLogonForm.grid-col-1
     required,
     minlength='8',
     maxlegnth='50')
-  input#accountLogonFormSubmit(type='submit', value='anmelden')
+  input#accountLogonFormSubmit(type='submit', value=translations.accountLogon.submit)
