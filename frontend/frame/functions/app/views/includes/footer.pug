@@ -1,3 +1,5 @@
-a#licenseLink(href=pugOptions.licenseUrl) Lizenzen
-a#pictureCreditLink(href=pugOptions.pictureCreditUrl) Bildnachweise
-a(href=pugOptions.versionUrl) framefe v#{pugOptions.version}
+a#licenseLink(href=pugOptions.footer.licenseCreditsUrl)= translations.footer.licenseCredits
+a#pictureCreditLink(href=pugOptions.footer.pictureCreditUrl)= translations.footer.pictureCredits
+a(href=pugOptions.footer.versionUrl)= translations.footer.versions
+each languageLink in pugOptions.footer.languages
+  a(href=languageLink.url)= languageLink.text

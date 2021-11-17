@@ -30,7 +30,7 @@ const initialize = () => {
     },
     url: {
       accountFeHost,
-      licenses: [],
+      baseUrl,
     },
     version,
     view: {
@@ -39,17 +39,11 @@ const initialize = () => {
     },
   };
 
-  config.url.error404 = `${baseUrl}${config.route.error}/404`;
-  config.url.error500 = `${baseUrl}${config.route.error}/500`;
   config.url.publicUrl = `${baseUrl}${config.statics.route}`;
   config.url.jsFiles = config.jsFiles.map((jsFile) => `${config.url.publicUrl}/${jsFile}`);
   config.url.accountFePublic = `${accountFeHost}${accountFePath}/public`;
   config.url.jsFiles.push(`${config.url.accountFePublic}/client.min.js`);
   config.url.cssFiles = config.cssFiles.map((cssFile) => `${config.url.publicUrl}/${cssFile}`);
-  config.url.licenseUrl = `${baseUrl}${config.route.license}`;
-  config.url.pictureCreditUrl = `${baseUrl}${config.route.pictureCredit}`;
-  config.url.home = `${baseUrl}${config.route.frame}`;
-  config.url.versionUrl = `${baseUrl}${config.route.version}`;
   return config;
 };
 

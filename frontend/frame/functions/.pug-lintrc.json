@@ -21,7 +21,7 @@
   "disallowTagInterpolation": true,
   "disallowTemplateString": null,
   "disallowTrailingSpaces": true,
-  "maximumLineLength": 80,
+  "maximumLineLength": 100,
   "maximumNumberOfLines": 1000,
   "requireClassLiteralsBeforeAttributes": true,
   "requireClassLiteralsBeforeIdLiterals": null,

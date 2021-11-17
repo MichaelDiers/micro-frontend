@@ -9,8 +9,11 @@ const initialize = (options = {}) => {
   const {
     config: {
       logger,
+      route: {
+        error,
+      },
       url: {
-        error500,
+        baseUrl,
       },
     },
   } = options;
@@ -25,12 +28,19 @@ const initialize = (options = {}) => {
    *  sends status 500 otherwise. Should false for error pages (infitite loop).
    */
   const handle = (res, promise, redirectOnError = true) => {
+    let url;
+    if (res.locals.lang) {
+      url = `${baseUrl}/${res.locals.lang}${error}/500`;
+    } else {
+      url = `${baseUrl}${error}/500`;
+    }
+
     promise.then(({ view, options: viewOptions }) => {
       res.render(view, viewOptions, (err, html) => {
         if (err) {
           logger(err);
           if (redirectOnError === true) {
-            res.redirect(303, error500);
+            res.redirect(303, url);
           } else {
             res.send(500);
           }
@@ -38,10 +48,10 @@ const initialize = (options = {}) => {
           res.send(html);
         }
       });
-    }).catch((error) => {
-      logger(error);
+    }).catch((err) => {
+      logger(err);
       if (redirectOnError === true) {
-        res.redirect(303, error500);
+        res.redirect(303, url);
       } else {
         res.status(500);
       }

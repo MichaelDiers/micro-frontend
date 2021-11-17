@@ -1,0 +1,38 @@
+{
+  "de": "Deutsch",
+  "account": {
+    "title": "Benutzerkonto"
+  },
+  "error404": {
+    "title": "Oooooops",
+    "headline": "Wo wolltest du denn hin?"
+  },
+  "error500": {
+    "title": "Sorry",
+    "headline": "Das konnte niemand erahnen, dass du das machen würdest...!?!?"
+  },
+  "footer": {
+    "licenseCredits": "Lizenzen",
+    "pictureCredits": "Bildnachweise",
+    "versions": "Versionen"
+  },
+  "frame": {
+    "title": "The Micro Frontend Shop",
+    "headline": "Frame"
+  },
+  "header": {
+    "headline": "The Micro Frontend Shop"
+  },
+  "licenseCredits": {
+    "title": "Lizennachweise",
+    "headline": "Lizennachweise"
+  },
+  "pictureCredits": {
+    "title": "Bildnachweis",
+    "headline": "Bildnachweis"
+  },
+  "versions": {
+    "title": "Versionen",
+    "headline": "Versionen"
+  }
+}

@@ -1,4 +1,5 @@
 const express = require('express');
+const language = require('../language/language');
 
 /**
  * Initialize options used for pug processing. The options are set to res.locals.pugOptions.
@@ -8,15 +9,17 @@ const express = require('express');
 const initialize = (options = {}) => {
   const {
     config: {
+      route: {
+        frame: frameRoute,
+        license: licenseRoute,
+        pictureCredit: pictureCreditRoute,
+        version: versionRoute,
+      },
       url: {
+        baseUrl,
         cssFiles,
         jsFiles,
-        licenses,
-        licenseUrl,
-        pictureCreditUrl,
         publicUrl,
-        home: homeUrl,
-        versionUrl,
       },
       version,
     },
@@ -25,13 +28,8 @@ const initialize = (options = {}) => {
 
   router.use((req, res, next) => {
     const pugOptions = {
-      lang: 'de',
       cssFiles,
       jsFiles,
-      licenseUrls: licenses,
-      licenseUrl,
-      pictureCreditUrl,
-      homeUrl,
       favicon: [
         {
           rel: 'apple-touch-icon',
@@ -52,8 +50,19 @@ const initialize = (options = {}) => {
           type: 'image/png',
         },
       ],
+      footer: {
+        licenseCreditsUrl: `${baseUrl}/${res.locals.lang}${licenseRoute}`,
+        pictureCreditUrl: `${baseUrl}/${res.locals.lang}${pictureCreditRoute}`,
+        versionUrl: `${baseUrl}/${res.locals.lang}${versionRoute}`,
+        languages: language.supported.filter((lang) => lang !== res.locals.lang).map((lang) => {
+          const result = { text: language.translate(lang, lang), url: `${baseUrl}/${lang}${req.originalUrl.substring(3)}` };
+          return result;
+        }),
+      },
+      header: {
+        homeUrl: `${baseUrl}/${res.locals.lang}${frameRoute}`,
+      },
       version,
-      versionUrl,
     };
 
     res.locals.pugOptions = pugOptions;

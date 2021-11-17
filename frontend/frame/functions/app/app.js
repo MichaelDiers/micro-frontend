@@ -32,17 +32,17 @@ const initialize = (config = {}) => {
 
   const statics = express.static(staticFolder, { index: false });
   mainRouter.use(staticRoute, statics);
-
+  middleware.language({ router: mainRouter });
   middleware.pug({ config, router: mainRouter });
-  mainRouter.use(errorRoute, router.error({ controller: controller.error(), routeHandler }));
-  mainRouter.use(frameRoute, router.frame({ controller: controller.frame(), routeHandler }));
-  mainRouter.use(licenseRoute, router.license({ controller: controller.license(), routeHandler }));
+  mainRouter.use(`(/de|/en)?${errorRoute}`, router.error({ controller: controller.error(), routeHandler }));
+  mainRouter.use(`(/de|/en)?${frameRoute}`, router.frame({ controller: controller.frame(), routeHandler }));
+  mainRouter.use(`(/de|/en)?${licenseRoute}`, router.license({ controller: controller.license(), routeHandler }));
   mainRouter.use(
-    pictureCreditRoute,
+    `(/de|/en)?${pictureCreditRoute}`,
     router.pictureCredit({ controller: controller.pictureCredit(), routeHandler }),
   );
-  mainRouter.use(accountRoute, router.account({ controller: controller.account(), routeHandler }));
-  mainRouter.use(versionRoute, router.version({ controller: controller.version(), routeHandler }));
+  mainRouter.use(`(/de|/en)?${accountRoute}`, router.account({ controller: controller.account(), routeHandler }));
+  mainRouter.use(`(/de|/en)?${versionRoute}`, router.version({ controller: controller.version(), routeHandler }));
 
   const app = express();
   middleware.base({ config, router: app });

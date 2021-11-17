@@ -1,11 +1,11 @@
 extends ../extends/layout
 
 block variables
-  - var title = 'Version index'
+  - var title = translations.versions.title
   - var pageId = 'id_42cc35f7a4e84f3b8744153ef331fa85'
 
 block content
-  h1 Versionen
+  h1= translations.versions.headline
   #framefeVersion.grid-col-1
     div framefe v#{pugOptions.version}
     div(frame-request-by='accountFeVersion')

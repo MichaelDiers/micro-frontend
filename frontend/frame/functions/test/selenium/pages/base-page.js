@@ -46,8 +46,8 @@ class BasePage {
     return new Builder().forBrowser('firefox').setFirefoxOptions(new firefox.Options().headless()).build();
   }
 
-  async request(timeout = config.timeout.checkPageId) {
-    await this.driver.get(this.url);
+  async request(lang = 'de', timeout = config.timeout.checkPageId) {
+    await this.driver.get(this.url.replace('framefe', `framefe/${lang}`));
     return this.checkPageId(timeout);
   }
 

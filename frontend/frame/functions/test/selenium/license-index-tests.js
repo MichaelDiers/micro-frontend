@@ -2,6 +2,7 @@
 
 const assert = require('assert');
 const BasePage = require('./pages/base-page');
+const language = require('../../app/language/language');
 const LicenseIndexPage = require('./pages/license-index-page');
 const windowSize = require('./helper/window-size');
 
@@ -17,13 +18,15 @@ describe('license/index page', function () {
     await driver.quit();
   });
 
-  windowSize.sizes().forEach((setSizeFunction) => {
-    describe(setSizeFunction.name, function () {
-      it('check headline', async function () {
-        await setSizeFunction(driver);
-        const page = new LicenseIndexPage(driver);
-        await page.request();
-        assert.equal(await page.headline(), 'License index');
+  language.supported.forEach((lang) => {
+    windowSize.sizes().forEach((setSizeFunction) => {
+      describe(setSizeFunction.name, function () {
+        it('check headline', async function () {
+          await setSizeFunction(driver);
+          const page = new LicenseIndexPage(driver);
+          await page.request(lang);
+          assert.equal(await page.headline(), language.translations(lang).licenseCredits.headline);
+        });
       });
     });
   });

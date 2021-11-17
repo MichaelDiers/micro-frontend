@@ -9,9 +9,11 @@ const initialize = (options = {}) => {
   const {
     config: {
       logger,
+      route: {
+        error,
+      },
       url: {
-        error404,
-        error500,
+        baseUrl,
       },
     },
     router = express.Router(),
@@ -25,12 +27,26 @@ const initialize = (options = {}) => {
     next, // eslint-disable-line no-unused-vars
   ) => {
     logger(err);
-    res.redirect(303, error500);
+    let url;
+    if (res.locals.lang) {
+      url = `${baseUrl}/${res.locals.lang}${error}/500`;
+    } else {
+      url = `${baseUrl}${error}/500`;
+    }
+
+    res.redirect(303, url);
   });
 
   // handle unknown routes.
   router.use(async (req, res, next) => { // eslint-disable-line no-unused-vars
-    res.redirect(303, error404);
+    let url;
+    if (res.locals.lang) {
+      url = `${baseUrl}/${res.locals.lang}${error}/404`;
+    } else {
+      url = `${baseUrl}${error}/404`;
+    }
+
+    res.redirect(303, url);
   });
 
   return router;
