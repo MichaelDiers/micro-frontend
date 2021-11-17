@@ -6,7 +6,6 @@
 const frameReplaceElements = async () => {
   const frameRequestAttributeName = 'frame-request-by';
   const baseAddress = `${window.location.href.split('framefe')[0]}framefe`; // eslint-disable-line no-undef
-
   document.addEventListener('DOMContentLoaded', () => { // eslint-disable-line no-undef
     const elements = document.querySelectorAll(`[${frameRequestAttributeName}]`); // eslint-disable-line no-undef
     if (elements && elements.forEach) {

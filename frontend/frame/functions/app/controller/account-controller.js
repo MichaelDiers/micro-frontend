@@ -13,7 +13,7 @@ const initialize = () => {
       const result = {
         view: 'account/index',
         options: {
-          accountRequest: `${url.replace(/\//g, '')}Request`,
+          accountRequest: `${url.replace(/^\/(de|en)\//, '').replace(/\//g, '')}Request`,
         },
       };
       return result;
