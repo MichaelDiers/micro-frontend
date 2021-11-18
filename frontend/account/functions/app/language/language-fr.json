@@ -1,0 +1,14 @@
+{
+  "accountWelcomeBack": {
+    "headline": "Content de te revoir, "
+  },
+  "accountLogon": {
+    "headline": "Content de te revoir!",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "submit": "s'identifier"
+  },
+  "accountIndex": {
+    "account": "Compte"
+  }
+}

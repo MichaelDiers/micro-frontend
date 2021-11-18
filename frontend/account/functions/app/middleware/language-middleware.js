@@ -15,16 +15,12 @@ const initialize = (options = {}) => {
     next();
   });
 
-  router.use('/de/*', (req, res, next) => {
-    res.locals.lang = language.de;
-    res.locals.translations = language.translations(res.locals.lang);
-    next();
-  });
-
-  router.use('/en/*', (req, res, next) => {
-    res.locals.lang = language.en;
-    res.locals.translations = language.translations(res.locals.lang);
-    next();
+  language.supported.forEach((lang) => {
+    router.use(`/${lang}/*`, (req, res, next) => {
+      res.locals.lang = lang;
+      res.locals.translations = language.translations(lang);
+      next();
+    });
   });
 
   return router;

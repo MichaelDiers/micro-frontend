@@ -1,6 +1,7 @@
 const express = require('express');
 
 const controller = require('./controller/controller');
+const language = require('./language/language');
 const middleware = require('./middleware/middleware');
 const router = require('./router/router');
 
@@ -27,8 +28,9 @@ const initialize = (config = {}) => {
   middleware.language({ router: mainRouter });
   mainRouter.use(middleware.pug({ config }));
 
-  mainRouter.use(`(/de|/en)?${accountRoute}`, router.account({ controller: controller.account() }));
-  mainRouter.use(`(/de|/en)?${versionRoute}`, router.version({ controller: controller.version() }));
+  const urlPrefix = `(/${language.supported.join('|/')})?`;
+  mainRouter.use(`${urlPrefix}${accountRoute}`, router.account({ controller: controller.account() }));
+  mainRouter.use(`${urlPrefix}${versionRoute}`, router.version({ controller: controller.version() }));
 
   const app = express();
   middleware.base({ config, router: app });
