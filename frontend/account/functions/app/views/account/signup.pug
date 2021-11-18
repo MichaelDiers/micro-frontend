@@ -1,0 +1,21 @@
+h1= translations.accountSignup.headline
+form#accountSignupForm.grid-col-1
+  label(for='accountSignupFormEmail')= translations.accountSignup.email
+  #accountSignupFormEmailError
+  input#accountSignupFormEmail(
+    type='email',
+    name='email',
+    placeholder='deine@email.de',
+    required, minlength='5',
+    maxlegnth='75')
+  label(for='accountSignupFormPassword')= translations.accountSignup.password
+  #accountSignupFormPasswordError
+  input#accountSignupFormPassword(
+    type='password',
+    name='password',
+    placeholder='mind. 8 Zeichen',
+    required,
+    minlength='8',
+    maxlegnth='50')
+  input#accountSignupFormSubmit(type='submit', value=translations.accountSignup.submit)
+a(href=logonUrl)= value=translations.accountSignup.switchToLogon

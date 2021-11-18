@@ -6,9 +6,17 @@
     "headline": "Welcome back!",
     "email": "Email",
     "password": "Password",
-    "submit": "signin"
+    "submit": "signin",
+    "switchToSignup": "I do not have account"
   },
   "accountIndex": {
     "account": "Account"
+  },
+  "accountSignup": {
+    "headline": "Welcome!",
+    "email": "Email",
+    "password": "Password",
+    "submit": "signup",
+    "switchToLogon": "I have an account"
   }
 }

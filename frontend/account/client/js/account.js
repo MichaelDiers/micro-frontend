@@ -22,6 +22,10 @@ const accountEvents = async () => {
     handleEvent(buildUrl(accountAddress.accountIndex), 'GET', e.detail, e.target).catch(handleError); // eslint-disable-line no-undef
   });
 
+  document.addEventListener('accountFeVersion', (e) => { // eslint-disable-line no-undef
+    handleEvent(buildUrl(accountAddress.accountVersion), 'GET', e.detail, e.target).catch(handleError); // eslint-disable-line no-undef
+  });
+
   document.addEventListener('accountlogonRequest', (e) => { // eslint-disable-line no-undef
     handleEvent(buildUrl(accountAddress.accountLogon), 'GET', e.detail, e.target).then(() => { // eslint-disable-line no-undef
       const element = e.target.querySelector('#accountLogonFormSubmit');
@@ -38,8 +42,20 @@ const accountEvents = async () => {
     }).catch(handleError); // eslint-disable-line no-undef
   });
 
-  document.addEventListener('accountFeVersion', (e) => { // eslint-disable-line no-undef
-    handleEvent(buildUrl(accountAddress.accountVersion), 'GET', e.detail, e.target).catch(handleError); // eslint-disable-line no-undef
+  document.addEventListener('accountsignupRequest', (e) => { // eslint-disable-line no-undef
+    handleEvent(buildUrl(accountAddress.accountSignup), 'GET', e.detail, e.target).then(() => { // eslint-disable-line no-undef
+      const element = e.target.querySelector('#accountSignupFormSubmit');
+      if (element) {
+        element.addEventListener('click', (innerEvent) => {
+          innerEvent.preventDefault();
+          if (formValidation(e.target, '#accountSignupFormEmail', '#accountSignupFormPassword') === true) { // eslint-disable-line no-undef
+            const email = e.target.querySelector('#accountSignupFormEmail').value;
+            const password = e.target.querySelector('#accountSignupFormPassword').value;
+            handleEvent(buildUrl(accountAddress.accountSignup), 'POST', e.detail, e.target, { email, password }).catch(handleError); // eslint-disable-line no-undef
+          }
+        });
+      }
+    }).catch(handleError); // eslint-disable-line no-undef
   });
 };
 

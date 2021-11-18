@@ -6,9 +6,17 @@
     "headline": "Content de te revoir!",
     "email": "E-mail",
     "password": "Mot de passe",
-    "submit": "s'identifier"
+    "submit": "s'identifier",
+    "switchToSignup": "je n'ai pas de compte"
   },
   "accountIndex": {
     "account": "Compte"
+  },
+  "accountSignup": {
+    "headline": "Bienvenue!",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "submit": "s'inscrire",
+    "switchToLogon": "J'ai un compte"
   }
 }

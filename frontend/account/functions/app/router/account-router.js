@@ -20,7 +20,7 @@ const initialize = (options = {}) => {
   });
 
   router.get('/logon', async (req, res) => {
-    const result = await controller.logon();
+    const result = await controller.logon(res.locals.lang);
     if (result) {
       const { view, options: viewOptions } = result;
       res.render(view, viewOptions);
@@ -29,6 +29,22 @@ const initialize = (options = {}) => {
 
   router.post('/logon', async (req, res) => {
     const result = await controller.logonPost(req.body);
+    if (result) {
+      const { view, options: viewOptions } = result;
+      res.render(view, viewOptions);
+    }
+  });
+
+  router.get('/signup', async (req, res) => {
+    const result = await controller.signupGet(res.locals.lang);
+    if (result) {
+      const { view, options: viewOptions } = result;
+      res.render(view, viewOptions);
+    }
+  });
+
+  router.post('/signup', async (req, res) => {
+    const result = await controller.signupPost(req.body);
     if (result) {
       const { view, options: viewOptions } = result;
       res.render(view, viewOptions);

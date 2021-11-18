@@ -6,9 +6,17 @@
     "headline": "Willkommen zurück!",
     "email": "Email",
     "password": "Passwort",
-    "submit": "anmelden"
+    "submit": "anmelden",
+    "switchToSignup": "Ich habe noch keinen Account"
   },
   "accountIndex": {
     "account": "Account"
+  },
+  "accountSignup": {
+    "headline": "Willkommen!",
+    "email": "Email",
+    "password": "Passwort",
+    "submit": "registrieren",
+    "switchToLogon": "Ich habe bereits einen Account"
   }
 }
