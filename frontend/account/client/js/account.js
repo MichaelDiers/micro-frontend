@@ -43,7 +43,7 @@ const accountEvents = async () => {
   });
 
   document.addEventListener('accountsignupRequest', (e) => { // eslint-disable-line no-undef
-    handleEvent(buildUrl(accountAddress.accountSignup), 'GET', e.detail, e.target).then(() => { // eslint-disable-line no-undef
+    handleEvent(buildUrl('/account/signup'), 'GET', e.detail, e.target).then(() => { // eslint-disable-line no-undef
       const element = e.target.querySelector('#accountSignupFormSubmit');
       if (element) {
         element.addEventListener('click', (innerEvent) => {
