@@ -1,5 +1,6 @@
 h1= translations.accountLogon.headline
 form#accountLogonForm.grid-col-1
+  input#accountLogonFormToken(type='hidden', name='_csrf', value=csurfToken)
   label(for='accountLogonFormEmail')= translations.accountLogon.email
   #accountLogonFormEmailError
   input#accountLogonFormEmail(

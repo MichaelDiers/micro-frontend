@@ -1,6 +1,8 @@
 const compression = require('compression');
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const helmet = require('helmet');
+const csurf = require('csurf');
 
 /**
  * Initialize basic middleware used for all routes, like helmet and compression.
@@ -30,6 +32,14 @@ const initialize = (options = {}) => {
   router.use(compression());
   router.use(express.urlencoded({ extended: false }));
   router.use(express.json());
+  router.use(cookieParser());
+
+  const csurfProtection = csurf({ cookie: true });
+  router.use(csurfProtection);
+  router.use((req, res, next) => {
+    res.locals.csurfToken = req.csrfToken();
+    next();
+  });
 
   return router;
 };

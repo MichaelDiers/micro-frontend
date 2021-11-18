@@ -35,7 +35,8 @@ const accountEvents = async () => {
           if (formValidation(e.target, '#accountLogonFormEmail', '#accountLogonFormPassword') === true) { // eslint-disable-line no-undef
             const email = e.target.querySelector('#accountLogonFormEmail').value;
             const password = e.target.querySelector('#accountLogonFormPassword').value;
-            handleEvent(buildUrl(accountAddress.accountLogon), 'POST', e.detail, e.target, { email, password }).catch(handleError); // eslint-disable-line no-undef
+            const csrfToken = e.target.querySelector('#accountLogonFormToken').value;
+            handleEvent(buildUrl(accountAddress.accountLogon), 'POST', e.detail, e.target, { email, password, _csrf: csrfToken }).catch(handleError); // eslint-disable-line no-undef
           }
         });
       }
@@ -51,7 +52,8 @@ const accountEvents = async () => {
           if (formValidation(e.target, '#accountSignupFormEmail', '#accountSignupFormPassword') === true) { // eslint-disable-line no-undef
             const email = e.target.querySelector('#accountSignupFormEmail').value;
             const password = e.target.querySelector('#accountSignupFormPassword').value;
-            handleEvent(buildUrl('/account/signup'), 'POST', e.detail, e.target, { email, password }).catch(handleError); // eslint-disable-line no-undef
+            const csrfToken = e.target.querySelector('#accountSignupFormToken').value;
+            handleEvent(buildUrl('/account/signup'), 'POST', e.detail, e.target, { email, password, _csrf: csrfToken }).catch(handleError); // eslint-disable-line no-undef
           }
         });
       }
