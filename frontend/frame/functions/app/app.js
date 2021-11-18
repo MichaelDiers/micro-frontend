@@ -5,6 +5,7 @@ const middleware = require('./middleware/middleware');
 const router = require('./router/router');
 
 const routeHandlerHelper = require('./helper/route-handler');
+const language = require('./language/language');
 
 const initialize = (config = {}) => {
   const {
@@ -34,15 +35,17 @@ const initialize = (config = {}) => {
   mainRouter.use(staticRoute, statics);
   middleware.language({ router: mainRouter });
   middleware.pug({ config, router: mainRouter });
-  mainRouter.use(`(/de|/en)?${errorRoute}`, router.error({ controller: controller.error(), routeHandler }));
-  mainRouter.use(`(/de|/en)?${frameRoute}`, router.frame({ controller: controller.frame(), routeHandler }));
-  mainRouter.use(`(/de|/en)?${licenseRoute}`, router.license({ controller: controller.license(), routeHandler }));
+
+  const urlPrefix = `(/${language.supported.join('|/')})?`;
+  mainRouter.use(`${urlPrefix}${errorRoute}`, router.error({ controller: controller.error(), routeHandler }));
+  mainRouter.use(`${urlPrefix}${frameRoute}`, router.frame({ controller: controller.frame(), routeHandler }));
+  mainRouter.use(`${urlPrefix}${licenseRoute}`, router.license({ controller: controller.license(), routeHandler }));
   mainRouter.use(
-    `(/de|/en)?${pictureCreditRoute}`,
+    `${urlPrefix}${pictureCreditRoute}`,
     router.pictureCredit({ controller: controller.pictureCredit(), routeHandler }),
   );
-  mainRouter.use(`(/de|/en)?${accountRoute}`, router.account({ controller: controller.account(), routeHandler }));
-  mainRouter.use(`(/de|/en)?${versionRoute}`, router.version({ controller: controller.version(), routeHandler }));
+  mainRouter.use(`${urlPrefix}${accountRoute}`, router.account({ controller: controller.account(), routeHandler }));
+  mainRouter.use(`${urlPrefix}${versionRoute}`, router.version({ controller: controller.version(), routeHandler }));
 
   const app = express();
   middleware.base({ config, router: app });

@@ -1,5 +1,6 @@
 const de = require('./language-de.json');
 const en = require('./language-en.json');
+const fr = require('./language-fr.json');
 
 const translations = (language) => {
   if (language === 'de') {
@@ -8,6 +9,10 @@ const translations = (language) => {
 
   if (language === 'en') {
     return en;
+  }
+
+  if (language === 'fr') {
+    return fr;
   }
 
   return {};
@@ -25,7 +30,8 @@ module.exports = {
   de: 'de',
   default: 'de',
   en: 'en',
-  supported: ['de', 'en'],
+  fr: 'fr',
+  supported: ['de', 'en', 'fr'],
   translate,
   translations,
 };

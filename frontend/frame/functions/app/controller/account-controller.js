@@ -1,3 +1,5 @@
+const language = require('../language/language');
+
 /**
  * Initialize the account controller.
  * @returns The controller as an object.
@@ -10,10 +12,12 @@ const initialize = () => {
      *   parameters as { view, options }.
      */
     index: async (url) => {
+      const regex = new RegExp(`^/(${language.supported.join('|')})/`);
       const result = {
         view: 'account/index',
         options: {
-          accountRequest: `${url.replace(/^\/(de|en)\//, '').replace(/\//g, '')}Request`,
+          // accountRequest: `${url.replace(/^\/(de|en|fr)\//, '').replace(/\//g, '')}Request`,
+          accountRequest: `${url.replace(regex, '').replace(/\//g, '')}Request`,
         },
       };
       return result;
