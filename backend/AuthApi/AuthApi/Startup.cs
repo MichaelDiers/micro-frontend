@@ -56,7 +56,7 @@ namespace AuthApi
 					{
 						lock (SyncObj)
 						{
-							database ??= new MongoDbAtlas(configuration.MongoDbAtlas);
+							database ??= new DatabaseCache(new MongoDbAtlas(configuration.MongoDbAtlas));
 						}
 					}
 
