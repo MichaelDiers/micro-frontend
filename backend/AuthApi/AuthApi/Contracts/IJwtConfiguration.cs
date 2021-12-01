@@ -21,13 +21,8 @@
 		string Issuer { get; }
 
 		/// <summary>
-		///   Gets the rsa private key.
+		///   Gets the rsa keys.
 		/// </summary>
-		string PrivateKey { get; }
-
-		/// <summary>
-		///   Gets the rsa public key.
-		/// </summary>
-		string PublicKey { get; }
+		string Keys { get; }
 	}
 }

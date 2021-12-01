@@ -36,7 +36,7 @@
 		public string CreateEncodedJwt(IUser user)
 		{
 			using var rsa = RSA.Create();
-			rsa.ImportRSAPrivateKey((ReadOnlySpan<byte>) Convert.FromBase64String(this.jwtConfiguration.PrivateKey), out _);
+			rsa.FromXmlString(this.jwtConfiguration.Keys);
 			var signingCredentials = new SigningCredentials(new RsaSecurityKey(rsa), "RS256")
 			{
 				CryptoProviderFactory = new CryptoProviderFactory
@@ -74,7 +74,7 @@
 				}
 
 				using var rsa = RSA.Create();
-				rsa.ImportSubjectPublicKeyInfo(Convert.FromBase64String(this.jwtConfiguration.PublicKey), out _);
+				rsa.FromXmlString(this.jwtConfiguration.Keys);
 				var validationParameters = new TokenValidationParameters
 				{
 					IssuerSigningKey = new RsaSecurityKey(rsa),

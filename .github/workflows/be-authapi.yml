@@ -27,8 +27,7 @@ jobs:
           MongoDbAtlas.CollectionName: ${{ secrets.MONGO_DB_ATLAS_COLLECTION_NAME }}
           MongoDbAtlas.ServiceUser: ${{ secrets.MONGO_DB_ATLAS_SERVICE_USER }}
           MongoDbAtlas.ServicePassword: ${{ secrets.MONGO_DB_ATLAS_SERVICE_PASSWORD }}
-          Jwt.PrivateKey: ${{ secrets.JWT_PRIVATE_KEY }}
-          Jwt.PublicKey: ${{ secrets.JWT_PUBLIC_KEY }}
+          Jwt.Keys: ${{ secrets.JWT_KEYS }}          
           Jwt.Issuer: ${{ secrets.JWT_ISSUER }}
           Jwt.Audience: ${{ secrets.JWT_AUDIENCE }}
           Jwt.Expires: ${{ secrets.JWT_EXPIRES }}

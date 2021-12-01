@@ -3,4 +3,3 @@ appsettings.Development.json
 bin/
 obj/
 *.csproj.user
-AuthApi.Test/appsettings.json

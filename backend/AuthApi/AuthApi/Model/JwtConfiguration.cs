@@ -8,6 +8,11 @@
 	public class JwtConfiguration : IJwtConfiguration
 	{
 		/// <summary>
+		///   Gets the rsa keys.
+		/// </summary>
+		public string Keys { get; set; }
+
+		/// <summary>
 		///   Gets the token audience.
 		/// </summary>
 		public string Audience { get; set; }
@@ -21,15 +26,5 @@
 		///   Gets the token issuer.
 		/// </summary>
 		public string Issuer { get; set; }
-
-		/// <summary>
-		///   Gets the rsa private key.
-		/// </summary>
-		public string PrivateKey { get; set; }
-
-		/// <summary>
-		///   Gets the rsa public key.
-		/// </summary>
-		public string PublicKey { get; set; }
 	}
 }
