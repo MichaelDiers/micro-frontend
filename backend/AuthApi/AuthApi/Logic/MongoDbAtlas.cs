@@ -28,7 +28,7 @@
 		/// <param name="configuration">The database configuration.</param>
 		public MongoDbAtlas(IMongoDbAtlasConfiguration configuration, ILogger<MongoDbAtlas> logger)
 		{
-			logger.LogInformation("MongoClient init");
+			logger.LogError("MongoClient init");
 			var settings = MongoClientSettings.FromConnectionString(configuration.ConnectionString);
 			var client = new MongoClient(settings);
 			this.database = client.GetDatabase(configuration.DatabaseName);
