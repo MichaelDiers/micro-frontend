@@ -1,33 +1,38 @@
 ﻿namespace AuthApi.Test.Mock
 {
-	using System.Collections.Generic;
 	using System.Threading.Tasks;
 	using AuthApi.Contracts;
-	using AuthApi.Logic;
 
-	internal class DatabaseMock : Database
+	public class DatabaseMock : IDatabase
 	{
-		private readonly IDictionary<string, IDatabaseUser> database = new Dictionary<string, IDatabaseUser>();
+		private readonly bool createResult;
+		private readonly bool initializeResult;
+		private readonly IUser readResult;
 
-		protected override Task<bool> CreateAsync(IDatabaseUser user)
+		public DatabaseMock()
 		{
-			if (this.database.ContainsKey(user.Key))
-			{
-				return Task.FromResult(false);
-			}
-
-			this.database[user.Key] = user;
-			return Task.FromResult(true);
 		}
 
-		protected override Task<IDatabaseUser> ReadUserAsync(string email)
+		public DatabaseMock(bool initializeResult, IUser readResult, bool createResult)
 		{
-			if (this.database.TryGetValue(email, out var user))
-			{
-				return Task.FromResult(user);
-			}
+			this.initializeResult = initializeResult;
+			this.readResult = readResult;
+			this.createResult = createResult;
+		}
 
-			return Task.FromResult<IDatabaseUser>(null);
+		public Task<bool> CreateAsync(IUser user)
+		{
+			return Task.FromResult(this.createResult);
+		}
+
+		public Task<bool> Initialize()
+		{
+			return Task.FromResult(this.initializeResult);
+		}
+
+		public Task<IUser> ReadAsync(string userName)
+		{
+			return Task.FromResult(this.readResult);
 		}
 	}
 }

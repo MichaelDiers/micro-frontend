@@ -1,1 +1,6 @@
 appsettings.Development.json
+.vs
+bin/
+obj/
+*.csproj.user
+AuthApi.Test/appsettings.json

@@ -1,13 +1,15 @@
 ﻿namespace AuthApi.Contracts
 {
+	using MongoDB.Bson;
+
 	/// <summary>
 	///   Specifies the data of a database user.
 	/// </summary>
 	public interface IDatabaseUser : IUser
 	{
 		/// <summary>
-		///   Gets the key used as an unique identifier.
+		///   Gets the mongodb id.
 		/// </summary>
-		string Key { get; }
+		ObjectId Id { get; }
 	}
 }

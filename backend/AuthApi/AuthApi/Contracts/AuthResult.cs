@@ -33,6 +33,16 @@
 		/// <summary>
 		///   Input data is invalid.
 		/// </summary>
-		BadRequest = 5
+		BadRequest = 5,
+
+		/// <summary>
+		///   The user is created.
+		/// </summary>
+		Created = 6,
+
+		/// <summary>
+		///   Indicates an invalid api key.
+		/// </summary>
+		Forbidden = 7
 	}
 }

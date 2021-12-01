@@ -1,7 +1,7 @@
 ﻿namespace AuthApi.Contracts
 {
 	/// <summary>
-	///   Specifies the result fot operations of <see cref="IAuthProvider" />.
+	///   Specifies the result for operations of <see cref="IAuthProvider" />.
 	/// </summary>
 	public interface IAuthProviderResult
 	{

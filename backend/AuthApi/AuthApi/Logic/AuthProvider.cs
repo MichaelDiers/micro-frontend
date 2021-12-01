@@ -1,7 +1,9 @@
 ﻿namespace AuthApi.Logic
 {
+	using System;
 	using System.Threading.Tasks;
 	using AuthApi.Contracts;
+	using AuthApi.Extensions;
 	using AuthApi.Model;
 
 	/// <summary>
@@ -15,35 +17,57 @@
 		private readonly IDatabase database;
 
 		/// <summary>
+		///   Provider for creating and validating hashes.
+		/// </summary>
+		private readonly IHashProvider hashProvider;
+
+		/// <summary>
+		///   Provider for creating and validating json web tokens.
+		/// </summary>
+		private readonly IJwtProvider jwtProvider;
+
+		/// <summary>
 		///   Creates a new instance of <see cref="AuthProvider" />.
 		/// </summary>
-		/// <param name="database">The database provider.</param>
-		public AuthProvider(IDatabase database)
+		/// <param name="database">Provides access to the database.</param>
+		/// <param name="hashProvider">A provider for creating and validating hashes.</param>
+		/// <param name="jwtProvider">Provider for creating and validating json web tokens.</param>
+		public AuthProvider(IDatabase database, IHashProvider hashProvider, IJwtProvider jwtProvider)
 		{
-			this.database = database;
+			this.database = database ?? throw new ArgumentNullException(nameof(database));
+			this.hashProvider = hashProvider ?? throw new ArgumentNullException(nameof(hashProvider));
+			this.jwtProvider = jwtProvider ?? throw new ArgumentNullException(nameof(jwtProvider));
 		}
 
 		/// <summary>
-		///   Sign in a user with email and password.
+		///   Initializes the application data.
 		/// </summary>
-		/// <param name="user">The user data used for signing in.</param>
-		/// <returns>
-		///   A <see cref="Task" /> whose result is an <see cref="IAuthProviderResult" />
-		///   that includes a token is the operation succeeds and the an operation
-		///   result.
-		/// </returns>
-		public async Task<IAuthProviderResult> SignInAsync(IUser user)
+		/// <returns>A <see cref="Task" /> whose result is an <see cref="IAuthProviderResult" />.</returns>
+		public async Task<IAuthProviderResult> InitializeAsync()
 		{
-			if (!ValidateUser(user))
+			var result = await this.database.Initialize();
+			return new AuthProviderResult(result ? AuthResult.Created : AuthResult.InternalError);
+		}
+
+		/// <summary>
+		///   Sign in an existing user.
+		/// </summary>
+		/// <param name="request">The request data.</param>
+		/// <returns>A <see cref="Task" /> whose result is an <see cref="IAuthProviderResult" />.</returns>
+		public async Task<IAuthProviderResult> SignInAsync(ISignInRequest request)
+		{
+			if (string.IsNullOrWhiteSpace(request?.ExpectedApiKey) || request.ExpectedApiKey != request.RequestApiKey)
 			{
-				return new AuthProviderResult
-				{
-					AuthResult = AuthResult.BadRequest
-				};
+				return new AuthProviderResult(AuthResult.Forbidden);
 			}
 
-			var result = await this.database.ReadAsync(user.Email);
-			if (result == null)
+			if (!request.Validate())
+			{
+				return new AuthProviderResult(AuthResult.BadRequest);
+			}
+
+			var databaseUser = await this.database.ReadAsync(request.UserName);
+			if (databaseUser == null || !this.hashProvider.Verify(request.Password, databaseUser.Password))
 			{
 				return new AuthProviderResult
 				{
@@ -53,52 +77,47 @@
 
 			return new AuthProviderResult
 			{
-				AuthResult = AuthResult.Authenticated
+				AuthResult = AuthResult.Authenticated,
+				Token = this.jwtProvider.CreateEncodedJwt(databaseUser)
 			};
 		}
 
 		/// <summary>
-		///   Sign up a user with email and password.
+		///   Sign up a new user.
 		/// </summary>
-		/// <param name="user">The user data used for signing up.</param>
-		/// <returns>
-		///   A <see cref="Task" /> whose result is an <see cref="IAuthProviderResult" />
-		///   that includes a token is the operation succeeds and the an operation
-		///   result.
-		/// </returns>
-		public async Task<IAuthProviderResult> SignUpAsync(IUser user)
+		/// <param name="request">The request data.</param>
+		/// <returns>A <see cref="Task" /> whose result is an <see cref="IAuthProviderResult" />.</returns>
+		public async Task<IAuthProviderResult> SignUpAsync(ISignUpRequest request)
 		{
-			if (!ValidateUser(user))
+			if (string.IsNullOrWhiteSpace(request?.ExpectedApiKey) || request.ExpectedApiKey != request.RequestApiKey)
 			{
-				return new AuthProviderResult
-				{
-					AuthResult = AuthResult.BadRequest
-				};
+				return new AuthProviderResult(AuthResult.Forbidden);
 			}
+
+			if (!request.Validate())
+			{
+				return new AuthProviderResult(AuthResult.BadRequest);
+			}
+
+			var user = new User
+			{
+				Email = this.hashProvider.Hash(request.Email),
+				Password = this.hashProvider.Hash(request.Password),
+				Roles = Roles.User,
+				UserName = request.UserName
+			};
 
 			var result = await this.database.CreateAsync(user);
 			if (!result)
 			{
-				return new AuthProviderResult
-				{
-					AuthResult = AuthResult.AlreadyExists
-				};
+				return new AuthProviderResult(AuthResult.AlreadyExists);
 			}
 
 			return new AuthProviderResult
 			{
-				AuthResult = AuthResult.Authenticated
+				AuthResult = AuthResult.Created,
+				Token = this.jwtProvider.CreateEncodedJwt(user)
 			};
-		}
-
-		/// <summary>
-		///   Validate the user input.
-		/// </summary>
-		/// <param name="user">The provided user data.</param>
-		/// <returns>True if the user is valid and false otherwise.</returns>
-		private static bool ValidateUser(IUser user)
-		{
-			return user != null && !string.IsNullOrWhiteSpace(user.Email) && !string.IsNullOrWhiteSpace(user.Password);
 		}
 	}
 }

@@ -1,24 +1,24 @@
 ﻿namespace AuthApi.Contracts
 {
 	/// <summary>
-	///   Describes the user data.
+	///   Specifies the sign in request data.
 	/// </summary>
-	public interface IUser
+	public interface ISignInRequest
 	{
 		/// <summary>
-		///   Gets the email address of the user.
+		///   Gets the expected api key.
 		/// </summary>
-		string Email { get; }
+		string ExpectedApiKey { get; }
 
 		/// <summary>
 		///   Gets the password.
 		/// </summary>
-		string Password { get; }
+		public string Password { get; }
 
 		/// <summary>
-		///   Gets the roles of the user.
+		///   Gets the api key from the header of the request header.
 		/// </summary>
-		Roles Roles { get; }
+		string RequestApiKey { get; }
 
 		/// <summary>
 		///   Gets the name of the user.

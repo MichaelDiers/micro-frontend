@@ -9,9 +9,9 @@
 	using Google.Cloud.Functions.Framework;
 	using Google.Cloud.Functions.Hosting;
 	using Microsoft.AspNetCore.Http;
-	using Microsoft.Extensions.Configuration;
 	using Microsoft.Extensions.Logging;
 	using Newtonsoft.Json;
+	using Newtonsoft.Json.Linq;
 
 	/// <summary>
 	///   Google cloud function for authenticating users.
@@ -20,19 +20,19 @@
 	public class AuthApiFunction : IHttpFunction
 	{
 		/// <summary>
-		///   The name of the api key in the application configuration.
-		/// </summary>
-		private const string ConfigurationApiKeyName = "ApiKey";
-
-		/// <summary>
 		///   The name for the api key in the http request.
 		/// </summary>
 		private const string HeaderApiKeyName = "x-api-key";
 
 		/// <summary>
-		///   The api key that is expected to be in incoming http request.
+		///   The name of the header used for authorization.
 		/// </summary>
-		private readonly string apiKey;
+		private const string HeaderAuthorization = "authorization";
+
+		/// <summary>
+		///   The application configuration from appsettings.
+		/// </summary>
+		private readonly IAppConfiguration appConfiguration;
 
 		/// <summary>
 		///   The logic provider for authenticating users.
@@ -47,20 +47,18 @@
 		/// <summary>
 		///   Creates a new instance of <see cref="AuthApiFunction" />.
 		/// </summary>
-		/// <param name="logger">A logger for error messages.</param>
-		/// <param name="configuration">Provides access to the appsettings.</param>
-		/// <param name="authProvider">Provider for handling users.</param>
-		public AuthApiFunction(ILogger<AuthApiFunction> logger, IConfiguration configuration, IAuthProvider authProvider)
+		/// <param name="logger">The error logger.</param>
+		/// <param name="authProvider">Provider for handling operations on users.</param>
+		/// <param name="appConfiguration">The configuration of the application.</param>
+		public AuthApiFunction(
+			ILogger<AuthApiFunction> logger,
+			IAuthProvider authProvider,
+			IAppConfiguration appConfiguration)
 		{
-			if (configuration == null)
-			{
-				throw new ArgumentNullException(nameof(configuration));
-			}
+			this.appConfiguration = appConfiguration ?? throw new ArgumentNullException(nameof(appConfiguration));
 
 			this.authProvider = authProvider ?? throw new ArgumentNullException(nameof(authProvider));
 			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
-			this.apiKey = configuration.GetValue<string>(ConfigurationApiKeyName);
 		}
 
 		/// <summary>
@@ -72,10 +70,7 @@
 		{
 			try
 			{
-				if (this.HandleApiKey(context))
-				{
-					await this.HandleHttpMethodsAsync(context);
-				}
+				await this.HandleHttpMethodsAsync(context);
 			}
 			catch (Exception ex)
 			{
@@ -85,39 +80,29 @@
 		}
 
 		/// <summary>
-		///   Validate the api key from the request. Reject the request if the
-		///   api key does not match.
-		/// </summary>
-		/// <param name="context">The context of the current http request.</param>
-		/// <returns>True if the api key is valid and false otherwise.</returns>
-		private bool HandleApiKey(HttpContext context)
-		{
-			if (context == null)
-			{
-				throw new ArgumentNullException(nameof(context));
-			}
-
-			if (context.Request?.Headers?.ContainsKey(HeaderApiKeyName) == true
-			    && context.Request.Headers[HeaderApiKeyName] == this.apiKey)
-			{
-				return true;
-			}
-
-			context.Response.StatusCode = (int) HttpStatusCode.Forbidden;
-			return false;
-		}
-
-		/// <summary>
 		///   Matches the http method of the request to a method in the auth provider and processes the request.
 		/// </summary>
 		/// <param name="context">The context of the current http request.</param>
 		/// <returns>A <see cref="Task" />.</returns>
 		private async Task HandleHttpMethodsAsync(HttpContext context)
 		{
-			if (string.Equals(context.Request.Method, HttpMethods.Post, StringComparison.InvariantCultureIgnoreCase))
+			var request = await this.ReadRequest(context);
+			if (string.Equals(context.Request.Method, HttpMethods.Post, StringComparison.InvariantCultureIgnoreCase)
+			    && string.Equals(context.Request.Path, "/signUp", StringComparison.InvariantCultureIgnoreCase))
 			{
-				var user = await ReadBody<User>(context);
-				var result = await this.authProvider.SignUpAsync(user);
+				var result = await this.authProvider.SignUpAsync(request);
+				await HandleResult(context, result);
+			}
+			else if (string.Equals(context.Request.Method, HttpMethods.Post, StringComparison.InvariantCultureIgnoreCase)
+			         && string.Equals(context.Request.Path, "/signIn", StringComparison.InvariantCultureIgnoreCase))
+			{
+				var result = await this.authProvider.SignInAsync(request);
+				await HandleResult(context, result);
+			}
+			else if (string.Equals(context.Request.Method, HttpMethods.Post, StringComparison.InvariantCultureIgnoreCase)
+			         && string.Equals(context.Request.Path, "/init", StringComparison.InvariantCultureIgnoreCase))
+			{
+				var result = await this.authProvider.InitializeAsync();
 				await HandleResult(context, result);
 			}
 			else
@@ -148,26 +133,42 @@
 					case AuthResult.Unauthorized:
 						context.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
 						break;
-					default:
+					case AuthResult.Created:
+						context.Response.StatusCode = (int) HttpStatusCode.Created;
+						break;
+					case AuthResult.BadRequest:
+						context.Response.StatusCode = (int) HttpStatusCode.BadRequest;
+						break;
+					case AuthResult.Forbidden:
+						context.Response.StatusCode = (int) HttpStatusCode.Forbidden;
+						break;
+					case AuthResult.None:
+					case AuthResult.InternalError:
 						context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
+						break;
+					default:
 						throw new ArgumentOutOfRangeException();
 				}
 
-				if (result.AuthResult == AuthResult.Authenticated && !string.IsNullOrWhiteSpace(result.Token))
+				if ((result.AuthResult == AuthResult.Authenticated || result.AuthResult == AuthResult.Created)
+				    && !string.IsNullOrWhiteSpace(result.Token))
 				{
-					var json = $"{{ \"token\": {result.Token}}}";
-					await context.Response.WriteAsync(json);
+					var json = new JObject
+					{
+						[nameof(IAuthProviderResult.Token)] = result.Token
+					};
+					context.Response.ContentType = "application/json";
+					await context.Response.WriteAsync(json.ToString());
 				}
 			}
 		}
 
 		/// <summary>
-		///   ReadAsync the json data from the body of the http request
-		///   and deserializes to an object of type <typeparamref name="T" />.
+		///   Read the body of the request as json.
 		/// </summary>
-		/// <typeparam name="T">The type of the expected object.</typeparam>
-		/// <param name="context">The context of the current http request.</param>
-		/// <returns>An instance of <typeparamref name="T" /> or null if the body is not valid.</returns>
+		/// <typeparam name="T">The type of the body object.</typeparam>
+		/// <param name="context">The context of the current request.</param>
+		/// <returns>A <see cref="Task" /> whose result is of type T.</returns>
 		private static async Task<T> ReadBody<T>(HttpContext context) where T : class
 		{
 			try
@@ -177,7 +178,53 @@
 			}
 			catch
 			{
-				context.Response.StatusCode = (int) HttpStatusCode.BadRequest;
+				return null;
+			}
+		}
+
+		/// <summary>
+		///   Read the header data of the request.
+		/// </summary>
+		/// <param name="context">The context of the current request.</param>
+		/// <param name="header">The name of the header to be read.</param>
+		/// <returns>The header value if exists and null otherwise.</returns>
+		private static string ReadHeader(HttpContext context, string header)
+		{
+			if (context.Request?.Headers?.TryGetValue(header, out var headerValue) == true)
+			{
+				return headerValue;
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		///   Read the request data.
+		/// </summary>
+		/// <param name="context">The context of the current request.</param>
+		/// <returns>A <see cref="Task" /> whose result is <see cref="RequestData" />.</returns>
+		private async Task<RequestData> ReadRequest(HttpContext context)
+		{
+			try
+			{
+				var request = await ReadBody<RequestData>(context) ?? new RequestData();
+
+				request.RequestApiKey = ReadHeader(context, HeaderApiKeyName);
+				request.ExpectedApiKey = this.appConfiguration.ApiKey;
+				request.Token = ReadHeader(context, HeaderAuthorization);
+				if (!string.IsNullOrWhiteSpace(request.Token))
+				{
+					var token = request.Token.Split(" ");
+					if (token.Length == 2)
+					{
+						request.Token = token[1];
+					}
+				}
+
+				return request;
+			}
+			catch
+			{
 				return null;
 			}
 		}

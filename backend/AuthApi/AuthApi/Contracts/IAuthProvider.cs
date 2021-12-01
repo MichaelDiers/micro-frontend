@@ -8,25 +8,23 @@
 	public interface IAuthProvider
 	{
 		/// <summary>
-		///   Sign in a user with email and password.
+		///   Initializes the application data.
 		/// </summary>
-		/// <param name="user">The user data used for signing in.</param>
-		/// <returns>
-		///   A <see cref="Task" /> whose result is an <see cref="IAuthProviderResult" />
-		///   that includes a token is the operation succeeds and the an operation
-		///   result.
-		/// </returns>
-		Task<IAuthProviderResult> SignInAsync(IUser user);
+		/// <returns>A <see cref="Task" /> whose result is an <see cref="IAuthProviderResult" />.</returns>
+		Task<IAuthProviderResult> InitializeAsync();
 
 		/// <summary>
-		///   Sign up a user with email and password.
+		///   Sign in an existing user.
 		/// </summary>
-		/// <param name="user">The user data used for signing up.</param>
-		/// <returns>
-		///   A <see cref="Task" /> whose result is an <see cref="IAuthProviderResult" />
-		///   that includes a token is the operation succeeds and the an operation
-		///   result.
-		/// </returns>
-		Task<IAuthProviderResult> SignUpAsync(IUser user);
+		/// <param name="request">The request data.</param>
+		/// <returns>A <see cref="Task" /> whose result is an <see cref="IAuthProviderResult" />.</returns>
+		Task<IAuthProviderResult> SignInAsync(ISignInRequest request);
+
+		/// <summary>
+		///   Sign up a new user.
+		/// </summary>
+		/// <param name="request">The request data.</param>
+		/// <returns>A <see cref="Task" /> whose result is an <see cref="IAuthProviderResult" />.</returns>
+		Task<IAuthProviderResult> SignUpAsync(ISignUpRequest request);
 	}
 }
