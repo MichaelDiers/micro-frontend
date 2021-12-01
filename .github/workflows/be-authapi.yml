@@ -1,0 +1,55 @@
+name: be-authapi
+on:  
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/AuthApi/**'
+  workflow_dispatch:
+jobs:  
+  production:
+    runs-on: ubuntu-latest
+    environment:
+      name: be-authapi-production
+    env:
+      CONFIG: Release
+    steps:      
+      - name: checkout source
+        uses: actions/checkout@v2
+      - name: configure appsettings.json
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: 'backend/AuthApi/AuthApi/appsettings.json'
+        env:
+          ApiKey: ${{ secrets.API_KEY }}
+          MongoDbAtlas.ConnectionString: ${{ secrets.MONGO_DB_ATLAS_CONNECTION_STRING }}
+          MongoDbAtlas.DatabaseName: ${{ secrets.MONGO_DB_ATLAS_DATABASE_NAME }}
+          MongoDbAtlas.CollectionName: ${{ secrets.MONGO_DB_ATLAS_COLLECTION_NAME }}
+          MongoDbAtlas.ServiceUser: ${{ secrets.MONGO_DB_ATLAS_SERVICE_USER }}
+          MongoDbAtlas.ServicePassword: ${{ secrets.MONGO_DB_ATLAS_SERVICE_PASSWORD }}
+          Jwt.PrivateKey: ${{ secrets.JWT_PRIVATE_KEY }}
+          Jwt.PublicKey: ${{ secrets.JWT_PUBLIC_KEY }}
+          Jwt.Issuer: ${{ secrets.JWT_ISSUER }}
+          Jwt.Audience: ${{ secrets.JWT_AUDIENCE }}
+          Jwt.Expires: ${{ secrets.JWT_EXPIRES }}
+      - name: use .net core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.x
+      - name: build
+        run: dotnet build --configuration "$CONFIG"
+      - name: test
+        run: dotnet test --configuration "$CONFIG" --no-build
+      - name: gcloud auth
+        uses: google-github-actions/auth@v0.4.0
+        with: credentials_json: ${{ secrets.GCP_CREDENTIALS_AUTHAPI }}
+      - name: gcloud deploy
+        uses: google-github-actions/deploy-cloud-functions@v0.6.0
+        with:
+          name: ${{ secrets.AUTHAPI_FUNCTION_NAME }}
+          runtime: dotnet3
+          source_dir: backend/AuthApi/AuthApi
+          entry_point: AuthApi.AuthApiFunction
+defaults:
+  run:
+    working-directory: 'backend/AuthApi'
