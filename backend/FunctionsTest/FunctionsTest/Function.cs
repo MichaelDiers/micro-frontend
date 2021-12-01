@@ -50,8 +50,8 @@
 		/// <returns>A <see cref="Task" />.</returns>
 		private async Task HandleHttpMethodsAsync(HttpContext context)
 		{
-			await context.Response.WriteAsync("Hello World!");
 			context.Response.StatusCode = (int) HttpStatusCode.OK;
+			await context.Response.WriteAsync("Hello World!");
 		}
 	}
 }
