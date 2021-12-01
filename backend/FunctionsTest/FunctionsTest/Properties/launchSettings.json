@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FunctionsTest": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

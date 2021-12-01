@@ -1,0 +1,38 @@
+name: be-functionstest
+on:  
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/FunctionsTest/**'
+  workflow_dispatch:
+jobs:  
+  production:
+    runs-on: ubuntu-latest    
+    environment:
+      name: be-functionstest-production
+    env:
+      CONFIG: Release
+    steps:      
+      - name: checkout source
+        uses: actions/checkout@v2      
+      - name: use .net core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.x
+      - name: build
+        run: dotnet build --configuration "$CONFIG"      
+      - name: gcloud auth
+        uses: google-github-actions/auth@v0.4.0
+        with: 
+          credentials_json: ${{ secrets.GCP_CREDENTIALS_FUNCTIONSTEST }}
+      - name: gcloud deploy
+        uses: google-github-actions/deploy-cloud-functions@v0.6.0
+        with:
+          name: ${{ secrets.FUNCTIONSTEST_FUNCTION_NAME }}
+          runtime: dotnet3
+          source_dir: backend/FunctionsTest/FunctionsTest
+          entry_point: FunctionsTest.Function
+defaults:
+  run:
+    working-directory: 'backend/FunctionsTest'
