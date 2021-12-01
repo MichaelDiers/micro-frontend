@@ -1,10 +1,9 @@
 ﻿namespace AuthApi.Test.Logic
 {
-	using System;
+	using System.Security.Cryptography;
 	using AuthApi.Contracts;
 	using AuthApi.Logic;
 	using AuthApi.Model;
-	using Microsoft.Extensions.Configuration;
 	using Xunit;
 
 	public class JwtProviderTests
@@ -22,15 +21,18 @@
 			Assert.NotNull(token);
 		}
 
-		[Fact]
-		public void ValidateToken()
+		[Theory]
+		[InlineData(1024)]
+		[InlineData(2048)]
+		[InlineData(4096)]
+		public void ValidateToken(int bits)
 		{
 			var payload = new User(
 				"userName",
 				"email",
 				Roles.Service,
 				"password");
-			var provider = Create();
+			var provider = Create(bits);
 
 			var token = provider.CreateEncodedJwt(payload);
 			Assert.NotNull(token);
@@ -43,15 +45,21 @@
 			Assert.Null(user.Email);
 		}
 
-		private static IJwtProvider Create()
+		private static IJwtProvider Create(int bits = 2048)
 		{
-			var config = new ConfigurationBuilder()
-				.SetBasePath(AppContext.BaseDirectory)
-				.AddJsonFile("appsettings.json", false, true)
-				.Build();
-			var appConfiguration = new AppConfiguration();
-			config.Bind(appConfiguration);
-			return new JwtProvider(appConfiguration.Jwt);
+			var jwtConfiguration = new JwtConfiguration
+			{
+				Audience = "JwtAudience",
+				Expires = 1,
+				Issuer = "JwtIssuer"
+			};
+
+			using (var rsa = RSA.Create(bits))
+			{
+				jwtConfiguration.Keys = rsa.ToXmlString(true);
+			}
+
+			return new JwtProvider(jwtConfiguration);
 		}
 	}
 }

@@ -15,6 +15,16 @@ namespace AuthApi
 	public class Startup : FunctionsStartup
 	{
 		/// <summary>
+		///   Connection to the database.
+		/// </summary>
+		private static IDatabase database;
+
+		/// <summary>
+		///   Lock for thread safety.
+		/// </summary>
+		private static readonly object SyncObj = new object();
+
+		/// <summary>
 		///   Configure logging for the cloud function.
 		/// </summary>
 		/// <param name="context">The <see cref="WebHostBuilderContext" />.</param>
@@ -39,7 +49,19 @@ namespace AuthApi
 			services.AddSingleton<IMongoDbAtlasConfiguration>(configuration.MongoDbAtlas);
 			services.AddSingleton<IJwtConfiguration>(configuration.Jwt);
 			services.AddSingleton<IJwtProvider, JwtProvider>();
-			services.AddSingleton<IDatabase, MongoDbAtlas>();
+			services.AddSingleton(
+				_ =>
+				{
+					if (database == null)
+					{
+						lock (SyncObj)
+						{
+							database ??= new MongoDbAtlas(configuration.MongoDbAtlas);
+						}
+					}
+
+					return database;
+				});
 			services.AddScoped<IAuthProvider, AuthProvider>();
 		}
 	}
