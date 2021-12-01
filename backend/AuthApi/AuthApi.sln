@@ -8,9 +8,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6699F5D6-F7E8-4E70-B0FB-BFCA9C976899}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		..\..\.github\workflows\be-authapi.yml = ..\..\.github\workflows\be-authapi.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthApi.Test", "AuthApi.Test\AuthApi.Test.csproj", "{B1410025-F9AD-4094-81E6-23ECAC678054}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthApi.Test", "AuthApi.Test\AuthApi.Test.csproj", "{B1410025-F9AD-4094-81E6-23ECAC678054}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -42,7 +42,8 @@ jobs:
         run: dotnet test --configuration "$CONFIG" --no-build
       - name: gcloud auth
         uses: google-github-actions/auth@v0.4.0
-        with: credentials_json: ${{ secrets.GCP_CREDENTIALS_AUTHAPI }}
+        with: 
+          credentials_json: ${{ secrets.GCP_CREDENTIALS_AUTHAPI }}
       - name: gcloud deploy
         uses: google-github-actions/deploy-cloud-functions@v0.6.0
         with:
