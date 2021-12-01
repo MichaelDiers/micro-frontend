@@ -3,7 +3,7 @@
 	using System.Threading.Tasks;
 	using AuthApi.Contracts;
 	using AuthApi.Model;
-	using DnsClient.Internal;
+	using Microsoft.Extensions.Logging;
 	using MongoDB.Bson;
 	using MongoDB.Driver;
 
@@ -26,7 +26,7 @@
 		///   Creates a new instance of <see cref="MongoDbAtlas" />.
 		/// </summary>
 		/// <param name="configuration">The database configuration.</param>
-		public MongoDbAtlas(IMongoDbAtlasConfiguration configuration, ILogger logger)
+		public MongoDbAtlas(IMongoDbAtlasConfiguration configuration, ILogger<MongoDbAtlas> logger)
 		{
 			logger.LogInformation("MongoClient init");
 			var settings = MongoClientSettings.FromConnectionString(configuration.ConnectionString);

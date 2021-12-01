@@ -50,13 +50,14 @@ namespace AuthApi
 			services.AddSingleton<IJwtConfiguration>(configuration.Jwt);
 			services.AddSingleton<IJwtProvider, JwtProvider>();
 			services.AddSingleton(
-				_ =>
+				sp =>
 				{
 					if (database == null)
 					{
 						lock (SyncObj)
 						{
-							database ??= new DatabaseCache(new MongoDbAtlas(configuration.MongoDbAtlas));
+							database ??= new DatabaseCache(
+								new MongoDbAtlas(configuration.MongoDbAtlas, sp.GetRequiredService<ILogger<MongoDbAtlas>>()));
 						}
 					}
 
