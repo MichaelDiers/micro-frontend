@@ -1,9 +1,9 @@
 ﻿namespace AuthApi.Logic
 {
-	using System.Diagnostics;
 	using System.Threading.Tasks;
 	using AuthApi.Contracts;
 	using AuthApi.Model;
+	using DnsClient.Internal;
 	using MongoDB.Bson;
 	using MongoDB.Driver;
 
@@ -26,9 +26,9 @@
 		///   Creates a new instance of <see cref="MongoDbAtlas" />.
 		/// </summary>
 		/// <param name="configuration">The database configuration.</param>
-		public MongoDbAtlas(IMongoDbAtlasConfiguration configuration)
+		public MongoDbAtlas(IMongoDbAtlasConfiguration configuration, ILogger logger)
 		{
-			Debug.WriteLine(configuration.ConnectionString);
+			logger.LogInformation("MongoClient init");
 			var settings = MongoClientSettings.FromConnectionString(configuration.ConnectionString);
 			var client = new MongoClient(settings);
 			this.database = client.GetDatabase(configuration.DatabaseName);
